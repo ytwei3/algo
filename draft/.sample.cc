@@ -2,11 +2,13 @@
 //
 //
 #include <stdio.h>
-#include <vector>
-using namespace std;
+//#include <algorithm>
+//#include <vector>
+//#include <unoredered_map>
+#define INF = 0x3f3f3f3f
+//using namespace std;
 
 int t, n;
-int const INF = 0x3f3f3f3f;
 
 int main()
 {
@@ -15,4 +17,3 @@ int main()
     }
     return 0;
 }
-

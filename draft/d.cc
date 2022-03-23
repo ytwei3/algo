@@ -2,18 +2,26 @@
 //#include <bits/stdc++.h>
 #include <stdio.h>
 #include <vector>
-#include <queue>
+#include <unordered_map>
+#include <list>
+#include <string>
+int t, n, sum;
 
+using namespace std;
+
+bool func(int a, int b)
+{
+    return ( a < b );
+}
 
 int main ()
 {
-    int a = 1;
-    int b = 0;
+    long long a = 1;
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(1);
 
-    b = a & -a;
-    a -= ( a & -a );
-
-    printf("%d %d\n", a, b);
+    printf("%lld\n", a - v.size());
 
 
     return 0;

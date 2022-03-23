@@ -1,16 +1,11 @@
-// 98 - Trees
 //
+// 98 - Trees
 //
 #include <stdio.h>
 #include <algorithm>
-#include <vector>
-#include <unordered_map>
 
 int n, m, a, b, tree;
-int aa, bb;
 int ar[505];
-std::vector<int> v[505];
-std::unordered_map<int, int> map;
 
 void res()
 {
@@ -20,6 +15,13 @@ void res()
         printf("There is one tree.\n");
     else
         printf("No trees.\n");
+}
+int find(int p)
+{
+    while ( ar[p] > 0)
+        p = ar[p];
+
+    return p;
 }
 
 int main()
@@ -31,33 +33,27 @@ int main()
         if ( n == 0 && m == 0 )
             break;
 
-        tree = 0;
-        for (int i=1; i<=n; ++i)
-            ar[i] = i;
+        for (int i=0; i<=n; ++i)
+            ar[i] = -1;
 
         while ( m-- )
         {
             scanf("%d%d", &a, &b);
-            aa = std::min(a, b);
-            bb = std::max(a, b);
+            int aa, bb;
+            aa = std::min( a, b );
+            bb = std::max( a, b );
 
-            if ( ar[a] == ar[b] )
-            {
-                map[ ar[aa] ] = 0;
-                continue;
-            }
-
-            ar[bb] = ar[aa];
-
-            if ( !map.count( ar[aa] ) )
-                map[ ar[aa] ] = 1;
-
-            v[ ar[aa] ].push_back( bb );
-            v[ bb ].push_back( 0 );
+            if ( find(a) == find(b) )
+                ar[ find(a) ] = 0;
+            else if ( aa <= 0  )
+                ar[bb] = aa;
+            else
+                ar[bb] = find(aa);
         }
 
+        tree = 0;
         for (int i=1; i<=n; ++i)
-            if ( v[i].empty() || ( v[i].front() != 0 && map[i] ) )
+            if ( ar[i] == -1 )
                 tree++;
 
         printf("Case %d: ", time++);
@@ -65,3 +61,4 @@ int main()
     }
     return 0;
 }
+
