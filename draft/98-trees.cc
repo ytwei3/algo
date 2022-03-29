@@ -2,63 +2,50 @@
 // 98 - Trees
 //
 #include <stdio.h>
-#include <algorithm>
 
-int n, m, a, b, tree;
-int ar[505];
+int p[505];
 
-void res()
+void res(int t)
 {
-    if ( tree > 1 )
-        printf("A forest of %d trees.\n", tree);
-    else if ( tree == 1 )
+    if ( t > 1 )
+        printf("A forest of %d trees.\n", t);
+    else if ( t == 1 )
         printf("There is one tree.\n");
     else
         printf("No trees.\n");
 }
-int find(int p)
+int find(int x)
 {
-    while ( ar[p] > 0)
-        p = ar[p];
-
-    return p;
+    return p[x] < 1 ? x : p[x] = find(p[x]);
 }
 
 int main()
 {
     int time = 1;
-    while ( 1 )
+    int n, m, a, b, c, d;
+    while ( scanf("%d%d", &n, &m) && ( n || m ) )
     {
-        scanf("%d%d", &n, &m);
-        if ( n == 0 && m == 0 )
-            break;
-
-        for (int i=0; i<=n; ++i)
-            ar[i] = -1;
+        for (int i=1; i<=n; ++i)
+            p[i] = -1;
 
         while ( m-- )
         {
             scanf("%d%d", &a, &b);
-            int aa, bb;
-            aa = std::min( a, b );
-            bb = std::max( a, b );
+            c = find(a), d = find(b);
 
-            if ( find(a) == find(b) )
-                ar[ find(a) ] = 0;
-            else if ( aa <= 0  )
-                ar[bb] = aa;
+            if ( c != d )
+                p[b] = c;
             else
-                ar[bb] = find(aa);
+                p[c] = 0;
         }
 
-        tree = 0;
+        int t = 0;
         for (int i=1; i<=n; ++i)
-            if ( ar[i] == -1 )
-                tree++;
+            if ( p[i] == -1 )
+                t++;
 
         printf("Case %d: ", time++);
-        res();
+        res(t);
     }
     return 0;
 }
-
