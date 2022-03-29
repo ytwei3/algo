@@ -32,7 +32,7 @@ int main()
             scanf("%d%d", &a, &b);
             c = find(a), d = find(b);
             if ( c != d )
-                p[b] = c;
+                p[d] = c;
         }
 
         cnt = 0;

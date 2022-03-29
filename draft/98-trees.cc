@@ -34,7 +34,7 @@ int main()
             c = find(a), d = find(b);
 
             if ( c != d )
-                p[b] = c;
+                p[d] = c;
             else
                 p[c] = 0;
         }
