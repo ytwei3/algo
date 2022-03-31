@@ -6,91 +6,78 @@
 
 struct Coord
 {
-    int x, y;
-};
-struct joe
-{
-    int x, y, t;
-};
+    int x, y, t, j;
+} joe;
 
 int n, r, c;
 int vist[1005][1005];
-std::queue<Coord> qf;
-std::queue<joe> q;
+std::queue<Coord> q;
 
 const int dir[4][2] = { { 1, 0 }, { 0, 1 }, { -1, 0 }, { 0, -1 } };
 
-bool isValid(int x, int y)
-{
-    return ( x > 0 && x <= r && y > 0 && y <= r ) ? true : false;
-}
-
-void firePath()
-{
-    while ( !qf.empty() )
-    {
-        Coord f = qf.front();
-        qf.pop();
-        
-        int nx, ny;
-        for (int i=0; i<4; ++i)
-        {
-            nx = f.x + dir[i][0];
-            ny = f.y + dir[i][1];
-            if ( isValid(nx, ny) && !vist[nx][ny] )
-            {
-                qf.push( { nx, ny } );
-                vist[nx][ny] = vist[f.x][f.y] + 1;
-            }
-        } 
-    }
-    return;
-}
-int jPath()
-{
-    while ( !q.empty() )
-    {
-        joe j = q.front();
-        q.pop();
-
-        if (j.x == 1 || j.x == r || j.y == 1 || j.y == c)
-            return j.t;
-
-        int nx, ny;
-        for (int i=0; i<4; ++i)
-        {
-            nx = j.x + dir[i][0];
-            ny = j.y + dir[i][1];
-
-            if ( isValid(nx, ny) && j.t + 1 < vist[nx][ny] )
-                q.push( { nx, ny, j.t + 1 } );
-        } 
-    }
-    return 0;
-}
 void init()
 {
-    char m;
+    while ( !q.empty() )
+        q.pop();
+
     scanf("%d%d", &r, &c);
-    for (int i=1; i<=r; ++i)
-        for (int j=1; j<=c; ++j)
+
+    char m;
+    // init vist
+    for (int i=0; i<r; ++i)
+        for (int j=0; j<c; ++j)
         {
-            scanf(" %c", &m );
-            if (m == 'J')
-            {
-                q.push( { i, j, 1} );
-                vist[i][j] = 0;
-            }
-            else if (m == 'F')
-            {
-                qf.push( { i, j } );
+            scanf(" %c", &m);
+            if ( m == '#')
                 vist[i][j] = 1;
+            else if ( m == 'F' )
+            {
+                vist[i][j] = 1;
+                q.push( { i, j, 0, 0 } );
             }
-            else if ( m == '#' )
-                vist[i][j] = -1;
+            else if ( m == 'J' )
+            {
+                vist[i][j] = 1;
+                joe = { i, j, 0, 1 };
+            }
             else
                 vist[i][j] = 0;
         }
+}
+bool isBorder( Coord now )
+{
+    return ( now.x == 0 || now.y == 0 || now.x == r-1 || now.y == c-1 ) ? 1 : 0;
+}
+bool isValid( Coord now )
+{
+    return ( now.x >= 0 || now.y >= 0 || now.x <= r-1 || now.y <= c-1 ) ? 1 : 0;
+}
+int bfs()
+{
+    q.push(joe);
+    while ( !q.empty() )
+    {
+        Coord p = q.front();
+        vist[p.x][p.y] = 1;
+        q.pop();
+
+        if ( isBorder(p) && p.j )
+            return p.t;
+
+        // next step
+        int nx, ny;
+        for (int i=0; i<4; ++i)
+        {
+            nx = p.x + dir[i][0];
+            ny = p.y + dir[i][1];
+            Coord next = { nx, ny, p.t + 1, p.j };
+
+            if ( isValid(next) && !vist[nx][ny] )
+                q.push( next );
+        } 
+    }
+
+    return -1;
 }
 
 int main ()
@@ -99,16 +86,19 @@ int main ()
         while (n--)
         {
             init();
-            firePath();
+            for (int i=0; i<r; ++i)
+            {
+                for (int j=0; j<c; ++j)
+                    printf("%d", vist[i][j]);
 
-            int time = jPath();
-            while ( !q.empty() )
-                q.pop();
+                printf("\n");
+            }
+            int time = bfs();
 
-            if ( !time )
+            if ( time == -1 )
                 printf("IMPOSSIBLE\n");
             else
-                printf("%d\n", time);
+                printf("%d\n", time+1);
         }
     return 0;
 }

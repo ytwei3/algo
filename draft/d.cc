@@ -12,11 +12,9 @@ using namespace std;
 
 int main ()
 {
-    deque<int> q = { 1, 2, 3 };
+    char c;
+    while ( ~scanf("%c", &c) )
+        printf("%c\n", c);
 
-    q.push_back( q.front() );
-    q.pop_front();
-
-    printf("%d %d\n", q[0], q[2]);
     return 0;
 }
