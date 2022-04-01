@@ -20,10 +20,8 @@ void init()
     while ( !q.empty() )
         q.pop();
 
-    scanf("%d%d", &r, &c);
-
     char m;
-    // init vist
+    scanf("%d%d", &r, &c);
     for (int i=0; i<r; ++i)
         for (int j=0; j<c; ++j)
         {
@@ -33,50 +31,50 @@ void init()
             else if ( m == 'F' )
             {
                 vist[i][j] = 1;
-                q.push( { i, j, 0, 0 } );
+                q.push( { i, j, 1, 0 } );
             }
             else if ( m == 'J' )
             {
                 vist[i][j] = 1;
-                joe = { i, j, 0, 1 };
+                joe = { i, j, 1, 1 };
             }
             else
                 vist[i][j] = 0;
         }
 }
-bool isBorder( Coord now )
+bool isValid( int border, Coord now )
 {
-    return ( now.x == 0 || now.y == 0 || now.x == r-1 || now.y == c-1 ) ? 1 : 0;
-}
-bool isValid( Coord now )
-{
-    return ( now.x >= 0 || now.y >= 0 || now.x <= r-1 || now.y <= c-1 ) ? 1 : 0;
+    if ( border )
+        return ( !now.x || !now.y || now.x == r-1 || now.y == c-1 ) ? 1 : 0;
+    else
+        return ( now.x >= 0 || now.y >= 0 || now.x < r || now.y < c ) ? 1 : 0;
 }
 int bfs()
 {
+    printf("%d %d\n", q.front().x, q.front().y);
     q.push(joe);
     while ( !q.empty() )
     {
         Coord p = q.front();
-        vist[p.x][p.y] = 1;
         q.pop();
 
-        if ( isBorder(p) && p.j )
+        if ( isValid(1, p) && p.j )
             return p.t;
 
-        // next step
         int nx, ny;
         for (int i=0; i<4; ++i)
         {
             nx = p.x + dir[i][0];
             ny = p.y + dir[i][1];
-            Coord next = { nx, ny, p.t + 1, p.j };
+            Coord next = { nx, ny, p.t + 1,  p.j };
 
-            if ( isValid(next) && !vist[nx][ny] )
+            if ( isValid(0, next) && !vist[nx][ny] )
+            {
+                vist[nx][ny] = 1;
                 q.push( next );
+            }
         } 
     }
-
     return -1;
 }
 
@@ -86,19 +84,13 @@ int main ()
         while (n--)
         {
             init();
-            for (int i=0; i<r; ++i)
-            {
-                for (int j=0; j<c; ++j)
-                    printf("%d", vist[i][j]);
-
-                printf("\n");
-            }
-            int time = bfs();
+            int time = -1;
+            time = bfs();
 
             if ( time == -1 )
                 printf("IMPOSSIBLE\n");
             else
-                printf("%d\n", time+1);
+                printf("%d\n", time);
         }
     return 0;
 }
