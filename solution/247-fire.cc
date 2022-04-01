@@ -47,11 +47,10 @@ bool isValid( int border, Coord now )
     if ( border )
         return ( !now.x || !now.y || now.x == r-1 || now.y == c-1 ) ? 1 : 0;
     else
-        return ( now.x >= 0 || now.y >= 0 || now.x < r || now.y < c ) ? 1 : 0;
+        return ( now.x >= 0 && now.y >= 0 && now.x < r && now.y < c ) ? 1 : 0;
 }
 int bfs()
 {
-    printf("%d %d\n", q.front().x, q.front().y);
     q.push(joe);
     while ( !q.empty() )
     {
