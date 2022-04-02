@@ -1,21 +1,22 @@
 //
+// My sample file
 //
-//
-#include <stdio.h>
-//#include <iostream>
-//#include <vector>
+//#include <stdio.h>
+#include <iostream>
+#include <array>
 //#include <string>
+//#include <vector>
+//#include <unoredered_map>
 //#include <algorithm>
 //#include <cmath>
-//#include <unoredered_map>
+#define endl "\n"
 #define INF = 0x3f3f3f3f
-#define ll = long long
-//using namespace std;
-//std::ios::sync_with_stdio(false), std::cin.tie(0);
+using namespace std;
 
 
 int main()
 {
+    ios::sync_with_stdio(false), cin.tie(nullptr);
 
     return 0;
 }

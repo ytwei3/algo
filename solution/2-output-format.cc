@@ -1,14 +1,21 @@
-#include <stdio.h>
+//
+// 2 - Output Format
+//
+#include <iostream>
+#define endl "\n"
+using namespace std;
+
+int t;
 
 int main()
 {
-    int t;
+    ios::sync_with_stdio(false), cin.tie(0);
 
-    if ( scanf("%d", &t) != EOF )
-        printf("%d\n", t);
+    cin >> t;
+    cout << t << endl;
 
-    while ( scanf("%d", &t) != EOF )
-        printf("\n%d\n", t);
+    while ( cin >> t )
+        cout << endl << t << endl;
 
     return 0;
 }
