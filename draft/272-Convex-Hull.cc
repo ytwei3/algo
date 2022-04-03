@@ -1,99 +1,106 @@
 //
 // 272 - Convex Hull
 //
-#include <stdio.h>
+//#include <stdio.h>
+#include <iostream>
+//#include <array>
+//#include <string>
 #include <vector>
-#include <stack>
-#include <unordered_map>
+//#include <unoredered_map>
+#include <algorithm>
+#include <cmath>
+#define endl "\n"
+using namespace std;
 
-struct Crood
+struct po
 {
-    double x, y;
-};
+    long long x, y;
+} p, p0;
 
-int t, n, m;
-const double INF = 0x3f3f3f3f;
-double ar[100005];
-Crood p[100005];
-Crood p0;
-std::vector<Crood> s;
-std::vector<double> d;
-std::unordered_map<double, int> map;
+int t, n, pos;
+const long long INF = 0x3f3f3f3f3f;
+vector<po> v, s;
 
-double isLeft(Crood a, Crood b, Crood c)
+long long crossProduct(po a, po b, po c)
 {
-    double res = (b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
-    return res;
+    return (b.x-a.x)*(c.y-a.y) - (c.x-a.x)*(b.y-a.y);
 }
-void sort(double reg[], int start, int end)
+double dis(po a, po b)
 {
-    if (start >= end)
-        return ;
-    int len = end - start, mid = (len >> 1) + start;
-    int start1 = start, end1 = mid;
-    int start2 = mid + 1, end2 = end;
-    sort(reg, start1, end1);
-    sort(reg, start2, end2);
-    int k = start;
-    while ( start1 <= end1 && start2 <= end2 )
-        reg[k++] = d[start1] < d[start2] ? d[start1++] : d[start2++];
-    while ( start1 <= end1 )
-        reg[k++] = d[start1++];
-    while ( start2 <= end2 )
-        reg[k++] = d[start2++];
-    for (k = start; k <= end; k++)
-        d[k] = reg[k];
+    return sqrt((a.x-b.x)*(a.x-b.x)*1.0 + (a.y-b.y)*(a.y-b.y)*1.0 );
 }
+bool cmp(po a, po b)
+{
+    long long cross = crossProduct(p0, a, b);
+    return ( cross > 0 || ( cross == 0 && dis(p0, a) <= dis(p0, b) ) ) ? 1 : 0;
+}
+void graham()
+{
+    int m = 1;
+    for (int i=2; i<n; i++)
+    {
+        while ( crossProduct(s[m-1], s[m], v[i]) < 0 )
+        {
+            s.pop_back();
+            m--;
+        }
+        s.push_back(v[i]);
+        m++;
+    }
+}
+void output()
+{
+    pos = 0;
+    for (int i=0; i<s.size(); ++i)
+        if ( s[i].x < p0.x || ( s[i].x == p0.x && s[i].y < p0.y ))
+            pos = i;
+
+    cout << s.size() << endl;
+    for (int i=pos; i<s.size(); ++i)
+        cout << s[i].x << " "
+             << s[i].y << endl;
+
+    for (int i=0; i<pos; ++i)
+        cout << s[i].x << " "
+             << s[i].y << endl;
+}
+
 
 int main()
 {
-    while ( scanf("%d", &t) != -1 )
+    ios::sync_with_stdio(false), cin.tie(nullptr);
+
+    while ( cin >> t )
     {
         while ( t-- )
         {
-            scanf("%d", &n);
-            p0.x = p0.y = INF;
+            cin >> n;
+            p0 = { INF, INF };
+            pos = 0;
             for (int i=0; i<n; ++i)
             {
-                scanf("%lf%lf", &p[i].x, &p[i].y);
-                if ( p[i].y < p0.y || ( p[i].y == p0.y && p[i].x < p0.x ) )
-                    p0 = p[i];
-            }
-
-            double tmp;
-            for (int i=1; i<=n; ++i)
-            {
-                tmp = ( p[i].y - p0.y ) / ( p[i].x - p0.x );
-                if ( !map.count(tmp) )
+                cin >> p.x >> p.y;
+                if ( p.y < p0.y || ( p.y == p0.y && p.x < p0.x ))
                 {
-                    d.push_back(tmp);
-                    map[tmp] = i;
+                    p0 = p;
+                    pos = i;
                 }
-                else if ( p[ map[tmp] ].x < p[i].x )
-                    map[tmp] = i;
+                v.push_back(p);
             }
-            double reg[d.size()];
-            sort(reg, 0, d.size()-1 );
 
-            s.push_back( p[0] ), s.push_back( p[1] );
+            po tmp;
+            tmp = v[pos];
+            v[pos] = v[0];
+            v[0] = tmp;
 
-            m = 1;
-            for ( int i=2; i<n; ++i )
-            {
-                while ( isLeft(s[m-1], s[m], p[i]) < 0 )
-                {
-                    s.pop_back();
-                    m--;
-                }
-                s.push_back(p[i]);
-                m++;
-            }
-        }
-        printf("%d\n", m);
-        while ( !s.empty() )
-        {
-            printf("%d %d\n", s.back().x, s.back().y );
-            s.pop_back();
+            sort( v.begin() + 1, v.end(), cmp );
+
+            s.push_back(p0);
+            s.push_back(v[1]);
+
+            graham();
+            output();
+            s.clear(), v.clear();
         }
     }
     return 0;

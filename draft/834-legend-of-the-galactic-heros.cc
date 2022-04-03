@@ -1,5 +1,5 @@
 //
-// My sample file
+// 834 - Legend of the Galactic Heros
 //
 //#include <stdio.h>
 #include <iostream>
@@ -12,18 +12,21 @@
 #define endl "\n"
 using namespace std;
 
-array<int ,5> ar;
+int t, n;
+char ch;
 
 int main()
 {
-    ios::sync_with_stdio(false), cin.tie(0);
-    
-    int j = 1;
-    for (auto &i : ar)
-        i = j++;
+    ios::sync_with_stdio(false), cin.tie(nullptr);
 
-    for (auto &i : ar)
-        cout << i << endl;
+    while ( cin >> t )
+    {
+        while ( t-- )
+        {
+            cin >> ch;
+        }
+
+    }
 
     return 0;
 }
