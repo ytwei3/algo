@@ -8,22 +8,21 @@
 //#include <vector>
 //#include <unoredered_map>
 //#include <algorithm>
-//#include <cmath>
+#include <math.h>
 #define endl "\n"
 using namespace std;
 
-array<int ,5> ar;
+int t, n;
 
 int main()
 {
     ios::sync_with_stdio(false), cin.tie(0);
     
-    int j = 1;
-    for (auto &i : ar)
-        i = j++;
-
-    for (auto &i : ar)
-        cout << i << endl;
+    while( cin >> t && t-- )
+    {
+        cin >> n;
+        cout << n << endl;
+    }
 
     return 0;
 }

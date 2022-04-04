@@ -18,7 +18,7 @@ struct po
 } p, p0;
 
 int t, n, pos;
-const long long INF = 0x3f3f3f3f3f;
+const long long INF = 0x3f3f3f3f;
 vector<po> v, s;
 
 long long crossProduct(po a, po b, po c)
@@ -37,7 +37,7 @@ bool cmp(po a, po b)
 void graham()
 {
     int m = 1;
-    for (int i=2; i<n; i++)
+    for (int i=2; i<v.size(); i++)
     {
         while ( crossProduct(s[m-1], s[m], v[i]) < 0 )
         {
@@ -48,23 +48,6 @@ void graham()
         m++;
     }
 }
-void output()
-{
-    pos = 0;
-    for (int i=0; i<s.size(); ++i)
-        if ( s[i].x < p0.x || ( s[i].x == p0.x && s[i].y < p0.y ))
-            pos = i;
-
-    cout << s.size() << endl;
-    for (int i=pos; i<s.size(); ++i)
-        cout << s[i].x << " "
-             << s[i].y << endl;
-
-    for (int i=0; i<pos; ++i)
-        cout << s[i].x << " "
-             << s[i].y << endl;
-}
-
 
 int main()
 {
@@ -80,7 +63,7 @@ int main()
             for (int i=0; i<n; ++i)
             {
                 cin >> p.x >> p.y;
-                if ( p.y < p0.y || ( p.y == p0.y && p.x < p0.x ))
+                if ( p.x < p0.x || ( p.x == p0.x && p.y < p0.y ))
                 {
                     p0 = p;
                     pos = i;
@@ -99,7 +82,11 @@ int main()
             s.push_back(v[1]);
 
             graham();
-            output();
+            cout << s.size() << endl;
+            for ( auto i : s )
+                cout << i.x << " "
+                     << i.y << endl;
+
             s.clear(), v.clear();
         }
     }
