@@ -37,6 +37,15 @@ bool cmp(po a, po b)
 void graham()
 {
     int m = 1;
+    s.push_back(p0), s.push_back(v[1]);
+
+    po tmp;
+    tmp = v[pos];
+    v[pos] = v[0];
+    v[0] = tmp;
+
+    sort( v.begin() + 1, v.end(), cmp );
+
     for (int i=2; i<v.size(); i++)
     {
         while ( crossProduct(s[m-1], s[m], v[i]) < 0 )
@@ -71,17 +80,8 @@ int main()
                 v.push_back(p);
             }
 
-            po tmp;
-            tmp = v[pos];
-            v[pos] = v[0];
-            v[0] = tmp;
-
-            sort( v.begin() + 1, v.end(), cmp );
-
-            s.push_back(p0);
-            s.push_back(v[1]);
-
             graham();
+
             cout << s.size() << endl;
             for ( auto i : s )
                 cout << i.x << " "

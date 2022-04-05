@@ -1,5 +1,5 @@
 //
-// My sample file
+// 211 - Points
 //
 //#include <stdio.h>
 #include <iostream>
@@ -27,7 +27,7 @@ int cross(point a, point b, point c)
 }
 int dot(point a, point b, point c)
 {
-    return (c.x-a.x) * (b.x-a.x) + (c.y-a.y)*(b.y-a.y);
+    return (b.y-a.y)*(c.y-a.y) + (c.x-a.x)*(b.x-a.x);
 }
 double dis(point a, point b)
 {
@@ -40,6 +40,15 @@ int cmp(point a, point b)
 void graham()
 {
     int m = 1;
+
+    point tmp;
+    tmp = v[pos];
+    v[pos] = v[0];
+    v[0] = tmp;
+
+    sort(v.begin()+1, v.end(), cmp);
+
+    s.push_back(p0), s.push_back(v[1]);
     for (int i=2; i<v.size(); ++i)
     {
         while ( cross(s[m-1], s[m], v[i] ) < 0 )
@@ -51,30 +60,35 @@ void graham()
         m++;
     }
 }
+int between(point a, point b, point c)
+{
+    return ( ((a.y <= c.y) && (c.y < b.y)) || ((b.y <= c.y) && (c.y < a.y)));
+}
 int onSegment(point a, point b, point c)
 {
     // cross = 0 means a, b, c are aligned - 1.
     // 0 <= dot <= dist(ab) on the segment - 2.
     return ( cross(a, b, c) == 0 && dot(a, b, c) >= 0 && dot(a, b, c) <= dot(a, b, b)) ? 1 : 0;
 }
-int rayCrossing(point c)
+void rayCasting(point c)
 {
-    int i, j = v.size() - 1;
-    int x = c.x, y = c.y;
-    for (i=0; i < v.size(); ++i)
+    int odd = 0;
+    for (int i=0, j = s.size()-1; i < s.size(); j = i++)
     {
-        point a = s[i], b = s[j];
-        if (onSegment(a, b, c))
+        if (onSegment(s[i], s[j], c))
         {
             cout << "inside" << endl;
-            return 1;
+            return ;
         }
-        if ( ((a.y < y && b.y >= y) 
-                || (b.y < y && a.y >= y) )
-                && (a.x <= x || b.x <= x))
-            if (a.x+(y-a.i))
+        if ( between(s[i], s[j], c) &&
+            (s[j].x - s[i].x) * ( c.y-s[i].y )/(s[j].y - s[i].y) + s[i].x > c.x )
+                odd =! odd;     // flip 0 & 1 
     }
-    return odd;
+    if ( odd )
+        cout << "inside" << endl;
+    else
+        cout << "outside" << endl;
+    return ;
 }
 
 int main()
@@ -96,15 +110,6 @@ int main()
                 pos = i;
             }
         }
-
-        point tmp;
-        tmp = v[pos];
-        v[pos] = v[0];
-        v[0] = tmp;
-        sort(v.begin()+1, v.end(), cmp);
-
-        s.push_back(p0), s.push_back(v[1]);
-
         graham();
 
         // second set
@@ -112,10 +117,7 @@ int main()
         while ( t-- )
         {
             cin >> p.x >> p.y;
-            if ( rayCrossing(p) )
-                cout << "inside" << endl;
-            else
-                cout << "outside" << endl;
+            rayCasting(p);
         }
     }
     return 0;
