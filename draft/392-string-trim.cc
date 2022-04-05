@@ -8,8 +8,6 @@
 //#include <cmath>
 //#include <algorithm>
 //#include <unoredered_map>
-#define INF = 0x3f3f3f3f
-#define ll = long long
 using namespace std;
 
 int t;
