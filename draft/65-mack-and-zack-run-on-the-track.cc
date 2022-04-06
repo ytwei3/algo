@@ -27,11 +27,8 @@ int main()
         {
             cin >> l >> r1 >> r2 >> m >> z;
 
-            ml = 2*m*(l + pi*r1);
-            zl = 2*z*(l + pi*r2);
-
-            cout << "mack: " << ml << endl
-                 << "zack: " << zl << endl;
+            ml = 2*m*l + 2*pi*r1;
+            zl = 2*z*l + 2*pi*r2;
 
             cout << "Track #" << n;
             if ( ml < zl )

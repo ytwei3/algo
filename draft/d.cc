@@ -1,10 +1,12 @@
 //
-// My sample file
+// My scratching file!!
 //
 #include <stdio.h>
 #include <iostream>
 #include <array>
 #include <string>
+#include <stack>
+#include <queue>
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
@@ -14,16 +16,19 @@ using namespace std;
 
 int t, n;
 vector<int> v;
+void sort()
+{
+    cout << "haha!" << endl;
+}
 
 int main()
 {
     ios::sync_with_stdio(false), cin.tie(0);
-    
-    v = { 1, 2, 3 };
-    cout << v.size() << endl;
-    v.pop_back();
-    cout << v.size() << endl;
 
+
+    sort(v.begin(), v.end());
+    sort();
+    sort(v.begin(), v.end());
 
     return 0;
 }

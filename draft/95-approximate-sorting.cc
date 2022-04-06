@@ -1,24 +1,28 @@
-// 95 - Approximate Sorting
 //
+// 95 - Approximate Sorting
 //
 #include <stdio.h>
 
-int t, n;
-int ar[19][19];
+int t, n, ans;
+int ar[19][19], p[19];
+
+int less(int a, int b)
+{
+    return a < b;
+}
 
 int main()
 {
-    while ( 1 )
+    while ( ~scanf("%d", &t) && t )
     {
-        scanf("%d", &t);
-        if ( t != 0 )
-        {
-            for (int i=0; i<t; ++i)
-                for (int j=0; j<t; ++j)
-                    scanf("%1d", &ar[i][j]);
-        }
-        else
-            break;
+        for (int i=0; i<t; ++i)
+            for (int j=0; j<t; ++j)
+                scanf("%1d", &ar[i][j]);
+
+        printf("%d", p[0]);
+        for (int i=1; i<t; i++)
+            printf("%d", p[i]);
+        printf("\n%d\n", ans);
     }
     return 0;
 }

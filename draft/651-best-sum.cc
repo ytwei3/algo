@@ -12,6 +12,11 @@
 #define endl "\n"
 using namespace std;
 
+struct point
+{
+    double x, y;
+};
+
 int t, n, num;
 vector<int> a, b;
 array<int, 1000> ar;
@@ -19,9 +24,6 @@ array<int, 1000> ar;
 int main()
 {
     ios::sync_with_stdio(false), cin.tie(nullptr);
-
-    for (int i=0; i<1000; ++i)
-        ar[i] = i;
 
     cin >> t;
     while ( t-- )

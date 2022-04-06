@@ -119,6 +119,7 @@ int main()
             cin >> p.x >> p.y;
             rayCasting(p);
         }
+        v.clear(), s.clear();
     }
     return 0;
 }
