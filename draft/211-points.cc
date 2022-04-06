@@ -47,8 +47,8 @@ void graham()
     v[0] = tmp;
 
     sort(v.begin()+1, v.end(), cmp);
-
     s.push_back(p0), s.push_back(v[1]);
+
     for (int i=2; i<v.size(); ++i)
     {
         while ( cross(s[m-1], s[m], v[i] ) < 0 )
@@ -66,6 +66,8 @@ int between(point a, point b, point c)
 }
 int onSegment(point a, point b, point c)
 {
+    if ( (c.x==a.x && c.y == a.y) || (c.x==b.x && c.y == b.y) )
+        return 1;
     // cross = 0 means a, b, c are aligned - 1.
     // 0 <= dot <= dist(ab) on the segment - 2.
     return ( cross(a, b, c) == 0 && dot(a, b, c) >= 0 && dot(a, b, c) <= dot(a, b, b)) ? 1 : 0;
@@ -84,11 +86,8 @@ void rayCasting(point c)
             (s[j].x - s[i].x) * ( c.y-s[i].y )/(s[j].y - s[i].y) + s[i].x > c.x )
                 odd =! odd;     // flip 0 & 1 
     }
-    if ( odd )
-        cout << "inside" << endl;
-    else
-        cout << "outside" << endl;
-    return ;
+
+    cout << (odd ? "inside" : "outside") << endl;
 }
 
 int main()

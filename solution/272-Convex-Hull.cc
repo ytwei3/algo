@@ -37,7 +37,6 @@ bool cmp(po a, po b)
 void graham()
 {
     int m = 1;
-    s.push_back(p0), s.push_back(v[1]);
 
     po tmp;
     tmp = v[pos];
@@ -45,6 +44,7 @@ void graham()
     v[0] = tmp;
 
     sort( v.begin() + 1, v.end(), cmp );
+    s.push_back(p0), s.push_back(v[1]);
 
     for (int i=2; i<v.size(); i++)
     {
