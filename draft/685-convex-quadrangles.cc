@@ -9,56 +9,41 @@
 //#include <unoredered_map>
 #include <algorithm>
 #include <math.h>
+#define pi acos(-1)
 #define endl "\n"
 using namespace std;
 
 struct point
 {
-    int x, y;
-}p, p0;
+    long long x, y;
+};
 
 int t, n, pos, cnt;
 const int INF =0x3f3f3f3f;
-vector<point> v, s;
+vector<point> p;
+vector<double> a;
 
-int cross(point a, point b, point c)
+double angle(double a, double b)
 {
-    return (b.x-a.x)*(c.y-a.y) - (c.x-a.x)*(b.y-a.y);
+    double t = b-a;
+    return ( t >= 0 ) ? t : t += 2*pi;
 }
-int dot(point a, point b, point c)
-{
-    return (b.y-a.y)*(c.y-a.y) + (c.x-a.x)*(b.x-a.x);
-}
-double dis(point a, point b)
-{
-    return sqrt((a.x-b.x)*(a.x-b.x)*1.0 + (a.y-b.y)*(a.y-b.y)*1.0);
-}
+
 int cmp(point a, point b)
 {
     return (cross(p0, a, b) > 0 || ( cross(p0, a, b) == 0 && dis(p0, a) <= dis(p0, b) )) ? 1 : 0;
 }
-void graham()
+
+long long count()
 {
-    int m = 1;
-
-    point tmp;
-    tmp = v[pos];
-    v[pos] = v[0];
-    v[0] = tmp;
-
-    sort(v.begin()+1, v.end(), cmp);
-
-    s.push_back(p0), s.push_back(v[1]);
-    for (int i=2; i<v.size(); ++i)
+    long long quad = n*(n-1)*(n-2)*(n-3)/24; // C(n, 4)
+    for (int i=0; i<n; ++i)
     {
-        while ( cross(s[m-1], s[m], v[i] ) < 0 )
-        {
-            s.pop_back();
-            m--;
-        }
-        s.push_back( v[i] );
-        m++;
+        int cnt = 0;
+        for (int i=0; i<n; ++i)
     }
+
+    return quad;
 }
 
 int main()
@@ -70,22 +55,14 @@ int main()
         while ( t-- )
         {
             cin >> n;
-            p0 = { INF, INF };
-            pos = 0;
             for (int i=0; i<n; ++i)
             {
-                cin >> p.x >> p.y;
-                v.push_back(p);
-                if ( p.y < p0.y || ( p.y == p0.y && p.x < p0.x) )
-                {
-                    p0 = p;
-                    pos = i;
-                }
+                int x, y;
+                cin >> x >> y;
+                p.push_back( { x, y } );
             }
-            graham();
-
-
-            v.clear(), s.clear();
+            cout << count() << endl;
+            p.clear(), a.clear();
         }
     }
     return 0;
