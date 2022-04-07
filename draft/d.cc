@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include <iostream>
+#include <iomanip>
 #include <array>
 #include <string>
 #include <stack>
@@ -16,19 +17,15 @@ using namespace std;
 
 int t, n;
 vector<int> v;
-void sort()
-{
-    cout << "haha!" << endl;
-}
 
 int main()
 {
     ios::sync_with_stdio(false), cin.tie(0);
 
+    double a;
+    cin >> fixed >> setprecision(2) >> a;
+    cout << a << endl;
 
-    sort(v.begin(), v.end());
-    sort();
-    sort(v.begin(), v.end());
 
     return 0;
 }

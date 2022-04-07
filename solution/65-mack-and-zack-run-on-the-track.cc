@@ -1,6 +1,7 @@
 //
 // 65 - Mack and Zack Run on the Track
-//
+// 
+// # fuck you!! iostream
 //#include <stdio.h>
 #include <iostream>
 #include <iomanip>
@@ -28,14 +29,12 @@ int main()
         {
             cin >> l >> r1 >> r2 >> m >> z;
 
-            ml = 2*m*l + 2*pi*r1;
-            zl = 2*z*l + 2*pi*r2;
-
-            double res = round(zl -ml);
+            ml = 2*m*l + 2*pi*r1*m;
+            zl = 2*z*l + 2*pi*r2*z;
 
             cout << "Track #" << n;
             if ( ml < zl )
-                cout << ": I've run " << fixed << res
+                cout << ": I've run " << lrint(zl-ml)
                      << " more meters than Mack!!!" << endl;
             else
                 cout << ": Drats!" << endl;
