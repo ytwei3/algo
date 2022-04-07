@@ -3,6 +3,7 @@
 //
 //#include <stdio.h>
 #include <iostream>
+#include <iomanip>
 //#include <array>
 //#include <string>
 //#include <vector>
@@ -30,9 +31,11 @@ int main()
             ml = 2*m*l + 2*pi*r1;
             zl = 2*z*l + 2*pi*r2;
 
+            double res = round(zl -ml);
+
             cout << "Track #" << n;
             if ( ml < zl )
-                cout << ": I've run " << round(zl-ml)
+                cout << ": I've run " << fixed << res
                      << " more meters than Mack!!!" << endl;
             else
                 cout << ": Drats!" << endl;

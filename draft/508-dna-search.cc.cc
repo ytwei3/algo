@@ -1,8 +1,8 @@
 //
 // 508 - DNA Search
 //
+// # Tire
 #include <stdio.h>
-#include <string.h>
 //#include <iostream>
 //#include <vector>
 //#include <string>
@@ -14,38 +14,26 @@
 //using namespace std;
 //std::ios::sync_with_stdio(false), std::cin.tie(0);
 
-char s[100005], sub[100005];
+int t;
+const int N = 100005;
+char s[N][4];
+
+void buildTire()
+{
+    for (int i=1; i<N; ++i)
+    {
+        scanf("%s", s + 1);
+        int u = 1;
+        for (int j = 1; s[j]; ++j)
+    }
+
+}
 
 int main()
 {
-    int t, n;
-    while ( ~scanf("%d", &t) )
-        for (int i=1; i<=t; i++)
-        {
-            scanf("%s", s);
-            scanf("%d", &n);
-
-            printf("Case #%d\n", i);
-            for (int k=0; k<n; k++)
-            {
-                int cnt = 0;
-                scanf("%s", sub);
-
-                char *p = s;
-                while ( 1 )
-                {
-                    p = strstr(p, sub);
-                    if ( p == NULL || p+1 == NULL )
-                        break;
-                    else
-                    {
-                        p = p + 1;
-                        cnt++;
-                    }
-                }
-                printf("%d\n", cnt);
-            }
-        }
+    buildTire();
+    while ( ~scanf("%d", t) )
+        while ( t-- )
 
     return 0;
 }
