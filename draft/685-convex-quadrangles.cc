@@ -15,35 +15,44 @@ using namespace std;
 
 struct point
 {
-    long long x, y;
+    double x, y;
 };
 
 int t, n, pos, cnt;
-const int INF =0x3f3f3f3f;
 vector<point> p;
 vector<double> a;
 
-double angle(double a, double b)
+double an(double a, double b)
 {
     double t = b-a;
     return ( t >= 0 ) ? t : t += 2*pi;
 }
-
-int cmp(point a, point b)
-{
-    return (cross(p0, a, b) > 0 || ( cross(p0, a, b) == 0 && dis(p0, a) <= dis(p0, b) )) ? 1 : 0;
-}
-
 long long count()
 {
-    long long quad = n*(n-1)*(n-2)*(n-3)/24; // C(n, 4)
-    for (int i=0; i<n; ++i)
+    long long ans1 = n*(n-1)*(n-2)*(n-3)/24; // C(n, 4)
+    for (int k=0; k<n; ++k)
     {
-        int cnt = 0;
         for (int i=0; i<n; ++i)
+            if ( k != i )
+            {
+                double angle = atan2(p[i].y-p[k].y, p[i].x - p[k].y);
+                a.push_back(angle);
+            }
+        sort(a.begin(), a.end());
+        long long ans2 = (n-1)*(n-2)*(n-3)/6;
+        for (int i=0, j=0; i<a.size(); ++i)
+        {
+            while ( j < i+n-1 )
+            {
+                if ( an(a[i], a[j%(n-1)]) > pi )
+                    break;
+                j++;
+            }
+            ans2 -= ( j-i-1 ) * ( j-i-2 )/2;
+        }
+        ans1 -= ans2;
     }
-
-    return quad;
+    return ans1;
 }
 
 int main()
@@ -57,7 +66,7 @@ int main()
             cin >> n;
             for (int i=0; i<n; ++i)
             {
-                int x, y;
+                double x, y;
                 cin >> x >> y;
                 p.push_back( { x, y } );
             }
