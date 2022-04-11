@@ -3,10 +3,7 @@
 //
 //#include <stdio.h>
 #include <iostream>
-//#include <array>
-//#include <string>
 #include <vector>
-//#include <unoredered_map>
 #include <algorithm>
 #include <math.h>
 #define endl "\n"
@@ -14,7 +11,7 @@ using namespace std;
 
 struct point
 {
-    int x, y;
+    double x, y; // double matters!!!!
 }p, p0;
 
 int t, pos;

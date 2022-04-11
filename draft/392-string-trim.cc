@@ -1,6 +1,9 @@
 //
 // 392 String Trim (PHP function)
-//
+// 
+// printf() = sprintf() + puts()
+// gets() was banned
+// \0, \r, \t are different!
 #include <iostream>
 #include <stdio.h>
 #include <vector>

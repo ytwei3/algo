@@ -1,32 +1,13 @@
 //
 // 834 - Legend of the Galactic Heros
 //
-//#include <stdio.h>
-#include <iostream>
-#include <array>
-//#include <string>
-//#include <vector>
-//#include <unoredered_map>
-//#include <algorithm>
-//#include <cmath>
-#define endl "\n"
-using namespace std;
+#include <stdio.h>
 
 int t, n;
-char ch;
 
-int main()
+int main ()
 {
-    ios::sync_with_stdio(false), cin.tie(nullptr);
-
-    while ( cin >> t )
-    {
-        while ( t-- )
-        {
-            cin >> ch;
-        }
-
-    }
-
+    scanf("%d", &n);
+    while ( n-- )
     return 0;
 }

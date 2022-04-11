@@ -20,12 +20,15 @@ vector<int> v;
 
 int main()
 {
-    ios::sync_with_stdio(false), cin.tie(0);
+    //ios::sync_with_stdio(false), cin.tie(0);
 
-    double a;
-    cin >> fixed >> setprecision(2) >> a;
-    cout << a << endl;
+    char ch[3][10000];
+    scanf("%[^\n]", ch[0]), getchar();
+    scanf("%[^\n]", ch[1]), getchar();
+    scanf("%[^\n]", ch[2]);
 
+    for (int i=0; i<3; i++)
+        puts(ch[i]);
 
     return 0;
 }
