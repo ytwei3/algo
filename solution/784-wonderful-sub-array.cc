@@ -7,6 +7,7 @@ using namespace std;
 
 int t, n, m, num;
 int ar[100005];
+const int INF = 0x3f3f3f3f;
 vector<long long> v;
 
 int main ()
@@ -24,7 +25,11 @@ int main ()
             if ( ar[i] <= m )
             {
                 if (ar[i] == m || ar[p] == m) 
+                {
                     v.push_back(sub);
+                    if ( ar[i] < m )
+                        v.push_back(-INF);
+                }
                 sub = 0, p = i;
             }
             else

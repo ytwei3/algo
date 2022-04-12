@@ -4,7 +4,6 @@
 // #LCA( lowest common ancestor )
 #include <stdio.h>
 #define INF = 0x3f3f3f3f
-#define ll = long long
 
 struct n
 {
