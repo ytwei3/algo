@@ -1,35 +1,32 @@
-// 748 - Dynamic Quad Tree
-// 
+//
+/* 748 - Dynamic Quad Tree */
 // 
 #include <stdio.h>
 #include <vector>
 
+int t, n, k, m, r, c;
+int qa[1025][1025];
+
 int main()
 {
-    int T, k, n;
-    printf("The number of T is : ");
-    scanf("%d", &T);
-
-    while (T--)
+    scanf("%d", &t);
+    while ( t-- )
     {
-        printf("The number of k is : ");
+        n = 1;
         scanf("%d", &k);
+        n <<= k;
 
-        n = 1 << k;
+        for ( int i=1; i<=n; i++ )
+            for ( int j=1; j<=n; j++ )
+                scanf("%1d", &qa[i][j]);
 
-        int m;
-        printf("The number of m is : ");
         scanf("%d", &m);
-
-        while (m--)
+        while ( m-- )
         {
-            int r, c, res;
-            scanf("%d %d", &r, &c);
-
-            printf("The number should be output is: ");
-            printf("%d\n",res);
+            scanf("%d%d", &r, &c);
+            qa[r][c] =! qa[r][c];
+            printf("%d", );
         }
     }
-
     return 0;
 }

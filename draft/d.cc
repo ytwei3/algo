@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <array>
 #include <string>
+#include <list>
 #include <stack>
 #include <queue>
 #include <vector>
@@ -17,18 +18,42 @@ using namespace std;
 
 int t, n;
 vector<int> v;
+list<int> l;
+unordered_map<int, list<int>::iterator > map;
+
+void init()
+{
+    int num;
+    scanf("%d", &num);
+    if ( n > 0 )
+    {
+        n--;
+        init();
+    }
+    else
+        return ;
+
+    l.push_front(num);
+    map[num] = l.begin();
+}
 
 int main()
 {
     //ios::sync_with_stdio(false), cin.tie(0);
 
-    char ch[3][10000];
-    scanf("%[^\n]", ch[0]), getchar();
-    scanf("%[^\n]", ch[1]), getchar();
-    scanf("%[^\n]", ch[2]);
+    scanf("%d", &n);
 
-    for (int i=0; i<3; i++)
-        puts(ch[i]);
+    init();
+
+    for ( auto i : l )
+        cout << i << " ";
+    cout << endl;
+
+    cout << *map[1] << endl;
+    cout << *map[2] << endl;
+    cout << *map[3] << endl;
+    cout << *map[4] << endl;
+    cout << *map[5] << endl;
 
     return 0;
 }

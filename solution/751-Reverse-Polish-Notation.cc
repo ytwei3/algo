@@ -1,3 +1,6 @@
+//
+/* 751 - Reverse */
+//
 #include <iostream>
 #include <stack>
 #include <string>
@@ -51,7 +54,5 @@ int main()
         if ( std::cin.eof() )
             break;
     }
-
     return 0;
-
 }
