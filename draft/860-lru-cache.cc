@@ -6,66 +6,59 @@
 #include <unordered_map>
 using namespace std;
 
-int n, m, num;
+int n, m, x;
 list<int> l;
 unordered_map<int, list<int>::iterator > map;
 
-void init()
-{
-    int num;
-    scanf("%d", &num);
-
-    if ( n > 0 )
-        n--, init();
-    else
-        return ;
-
-    l.push_front(num);
-    map[num] = l.begin();
-}
 
 int main ()
 {
     while ( ~scanf("%d%d", &n, &m) )
     {
-        init();
+        while ( n-- )
+        {
+            scanf("%d", &x);
+            l.push_back(x);
+        }
+
+        for (auto it = l.begin(); it != l.end(); it++)
+            map[ *it ] = it;
+
+        for (auto i : l)
+            printf("%d ", i);
+        printf("\n");
+
         while ( m-- )
         {
-            scanf("%d", &num);
-            if ( !map.count(num) || map[num] == l.end() )
+            scanf("%d", &x);
+            if ( !map.count(x) )
             {
                 printf("0");
 
-                l.push_front(num);
-                map[ num ] = l.begin();
+                l.push_front(x);
+                map[ x ] = l.begin();
 
-                map[ l.back() ] = l.end();
+                int t = l.back();
                 l.pop_back();
+                map.erase( t );
             }
             else
             {
                 printf("1");
 
-                l.push_front(num);
-                map[ num ] = l.begin();
+                l.push_front(x);
+                map[ x ] = l.begin();
 
-                l.erase(map[num]);
+                l.erase(map[x]);
             }
-           // printf("This time the cache is: \n");
-           // for ( auto i : l )
-           //     printf("%d ", i);
-           // printf("\n");
         }
 
         printf("\n%d", l.front());
-        map[ l.front() ] = l.end();
         l.pop_front();
-        while ( !l.empty() )
-        {
-            printf(" %d", l.front());
-            map[ l.front() ] = l.end();
-            l.pop_front();
-        }
+
+        for ( auto i : l )
+            printf(" %d", i);
+        l.clear(), map.clear();
         printf("\n");
     }
     return 0;

@@ -6,7 +6,6 @@
 #include <array>
 //#include <string>
 #include <vector>
-//#include <unoredered_map>
 #include <algorithm>
 #include <math.h>
 #define pi acos(-1)
@@ -18,7 +17,8 @@ struct point
     double x, y;
 };
 
-int t, n, pos, cnt;
+int t, pos;
+long long n;
 vector<point> p;
 vector<double> a;
 
@@ -30,8 +30,10 @@ double an(double a, double b)
 long long count()
 {
     long long ans1 = n*(n-1)*(n-2)*(n-3)/24; // C(n, 4)
+
     for (int k=0; k<n; ++k)
     {
+        int cnt = 0;
         for (int i=0; i<n; ++i)
             if ( k != i )
             {
@@ -59,6 +61,7 @@ int main()
 {
     ios::sync_with_stdio(false), cin.tie(nullptr);
 
+    double x, y;
     while ( cin >> t )
     {
         while ( t-- )
@@ -66,7 +69,6 @@ int main()
             cin >> n;
             for (int i=0; i<n; ++i)
             {
-                double x, y;
                 cin >> x >> y;
                 p.push_back( { x, y } );
             }
