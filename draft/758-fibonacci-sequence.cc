@@ -1,51 +1,48 @@
 //
-// My sample file
+/* 758 - Fibonacci Sequence */
 //
-//#include <stdio.h>
-#include <iostream>
-//#include <array>
-//#include <string>
+#include <stdio.h>
 #include <vector>
-//#include <unoredered_map>
 #include <algorithm>
-//#include <cmath>
-#define endl "\n"
 using namespace std;
 
 int t, n; 
-long long q, sum, ar[5000000];
-vector<long long> v;
+long long q, sum, bucket, max;
+long long fi[5000001], ar[5000001];
+vector<long long> v[5000001];
 
 int main()
 {
-    ios::sync_with_stdio(false), cin.tie(nullptr);
-
-    ar[0] = 1, ar[1] = 1;
+    fi[0] = 1, fi[1] = 1;
     for (int i=2; i<5000000; ++i)
-        ar[i] = ar[i-1] + ar[i-2];
-    long long res = ar[5000000-1] % 100000000;
+        fi[i] = fi[i-1] + fi[i-2];
 
-    cout << res << endl;
+    scanf("%d", &t);
+    while ( t-- )
+    {
+        scanf("%d%d", &n, &q);
 
-//    while ( cin >> t )
-//    {
-//        while ( t-- )
-//        {
-//            cin >> n >> q;
-//
-//            for (int i=1; i<=n; ++i)
-//                v.push_back( ar[i] % q );
-//
-//            sort(v.begin(), v.end());
-//
-//            sum = 0;
-//            for (int i=0; i<n; ++i)
-//                sum += (i+1) * v[i];
-//
-//            cout << sum % q << endl;
-//            v.clear();
-//        }
-//    }
+        max = -1;
+        for ( int i=0; i<n; i++ )
+            ar[i] = fi[i] % q;
+
+        max = ar[n], bucket = 0;
+        while ( max > 0 )
+        {
+            bucket++;
+            max /= q;
+        }
+
+        for ( int i=0; i<bucket; ++i )
+        {
+            int power = pow(q, i);
+            int new_array[n];
+        }
+
+        sum = 0;
+        for (int i=0; i<n; ++i)
+            sum += (i+1) * v[i];
+    }
 
     return 0;
 }
