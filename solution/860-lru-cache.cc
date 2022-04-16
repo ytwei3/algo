@@ -24,10 +24,6 @@ int main ()
         for (auto it = l.begin(); it != l.end(); it++)
             map[ *it ] = it;
 
-        for (auto i : l)
-            printf("%d ", i);
-        printf("\n");
-
         while ( m-- )
         {
             scanf("%d", &x);
@@ -46,10 +42,11 @@ int main ()
             {
                 printf("1");
 
+                l.erase(map[x]);
+
                 l.push_front(x);
                 map[ x ] = l.begin();
 
-                l.erase(map[x]);
             }
         }
 

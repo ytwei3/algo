@@ -3,7 +3,6 @@
 //
 //#include <stdio.h>
 #include <iostream>
-//#include <array>
 #include <string>
 #include <vector>
 #include <stack>
@@ -31,7 +30,7 @@ void i2p() // infix to Postfix
             s.push(c);
         else if ( c == ')' )
         {
-            while ( s.top() != '(' && !s.empty() )
+            while ( s.top() != '(' )
             {
                 v.push_back( s.top() );
                 s.pop();
@@ -51,6 +50,10 @@ void i2p() // infix to Postfix
     while ( !s.empty() )
         v.push_back( s.top() ), s.pop();
 
+    puts("value in v");
+    for ( auto i : v )
+        cout << i << " ";
+    cout << endl;
 }
 int evaluate()
 {
@@ -63,17 +66,17 @@ int evaluate()
             if ( map[i] == 4 )
             {
                 op1 = si.top(), si.pop();
-                op = ~op1;
+                op =! op1;
                 si.push(op);
             }
-            if ( map[i] == 3 )
+            else if ( map[i] == 3 )
             {
                 op1 = si.top(), si.pop();
                 op2 = si.top(), si.pop();
                 op = op1 & op2 ;
                 si.push(op);
             }
-            if ( map[i] == 2 )
+            else if ( map[i] == 2 )
             {
                 op1 = si.top(), si.pop();
                 op2 = si.top(), si.pop();
@@ -93,11 +96,11 @@ int main()
     map['('] = 5, map[')'] = 5;
     map['!'] = 4, map['&'] = 3, map['+'] = 2;
 
-    while ( cin >> str )
+    while ( getline(cin, str) )
     {
         i2p();
         evaluate() ? cout << "YES" << endl 
-                   : cout << "NO" << endl;
+                    :cout << "NO" << endl;
     }
     return 0;
 }

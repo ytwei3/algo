@@ -2,12 +2,11 @@
 // 215 - Jack Straws
 //
 // #disjoint set
-#include <stdio.h>
+#include <cstdio>
 #define INF = 0x3f3f3f3f
 //#include <algorithm>
 #include <vector>
-//#include <unoredered_map>
-//using namespace std;
+using namespace std;
 
 struct straw
 {

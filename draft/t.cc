@@ -1,73 +1,57 @@
-#include <iostream>
+//
+/* 758 - Fibonacci Sequence */
+//
+#include <stdio.h>
 #include <vector>
-#include <stack>
+#include <algorithm>
+#include <cmath>
 using namespace std;
 
-struct Node {
-public:
-    vector< int > Adj;
-    vector< int > ppa;
-};
+int t, n, cnt, bucket; 
+long long q, u, v, w;
+vector<long long> b[1001];
 
-bool visted[500];
-Node citys[500];
-bool lnk[500];
-
-int main(int argc, const char *argv[])
+int main()
 {
-    int m,n;
-    while (cin >> m >> n && m && n) {
-        for (int i=0; i!=500; ++i) {
-            citys[i].Adj.clear();
-            citys[i].ppa.clear();
-            visted[i] = false;
-            lnk[i] = false;
+    bucket = 60;
+
+    scanf("%d", &t);
+    while ( t-- )
+    {
+        scanf("%d%lld", &n, &q);
+
+        u = 1, v = 1;
+        b[1].push_back(1), b[1].push_back(1);
+
+        int len = 1;
+        while ( pow( bucket, len) < q )
+            len++;
+
+        for ( int i=2; i<n; i++ )
+        {
+            w = ( u + v ) % q;
+            u = v, v = w;
+
+            cnt = 1;
+            while ( pow(bucket, cnt) < w )
+                cnt++;
+            b[cnt].push_back(w);
         }
-        signed int max_ppa = -2147483648;
-        //cout << max_ppa << endl;
-        for (int i=0; i!=n; ++i) {
-            int c1,c2;
-            int ppa;
-            cin >> c1 >> c2 >> ppa;
-            --c1;
-            --c2;
-            citys[c1].Adj.push_back(c2);
-            citys[c1].ppa.push_back(ppa);
-            citys[c2].Adj.push_back(c1);
-            citys[c2].ppa.push_back(ppa);
-            if (ppa>max_ppa)
-              max_ppa = ppa;
-            lnk[c1] = true;
-            lnk[c2] = true;
-        }
-        int max_c = 0;
-        int c_no = 0;
-        for (int i=0; i!=m; ++i) {
-            if (lnk[i] && !visted[i]) {
-                stack< int > s;
-                s.push(i);
-                visted[i] = true;
-                c_no=1;
-                while (!s.empty())
-                {
-                    int k = s.top();
-                    s.pop();
-                    for (int j=0; j!= citys[k].Adj.size(); ++j)
-                    {
-                        if (!visted[ citys[k].Adj[j] ] &&
-                            citys[k].ppa[j] == max_ppa)
-                        {
-                            s.push(citys[k].Adj[j]);
-                            visted[ citys[k].Adj[j] ] = true;
-                            ++c_no;
-                        }
-                    }
-                }
-            }
-            if (c_no>max_c)
-              max_c = c_no;
-        }
-        cout << max_c << endl;
+
+        for ( int i=1; i<=len; i++ )
+            sort( b[i].begin(), b[i].end() );
+
+        int s = 1;
+        long long sum = 0;
+        for ( int i=1; i<=len; i++ )
+            for ( auto j : b[i] )
+                sum += j%q * s%q, s++;
+
+        printf("%lld\n", sum % q );
+
+        for (int i=1; i<=len; i++)
+            b[i].clear();
     }
     return 0;
 }
+

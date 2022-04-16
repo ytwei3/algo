@@ -16,14 +16,17 @@
 #define endl "\n"
 using namespace std;
 
-unordered_map<int, int> map;
-
 int main()
 {
-    ios::sync_with_stdio(false), cin.tie(0);
+    int a, b, c;
+    cin >> a >> b >> c;
 
-
-    map = { 1, 2 },
+    a = ~b;
+    cout << a << endl;
+    a = b | c;
+    cout << a << endl;
+    a = b & c;
+    cout << a << endl;
 
     return 0;
 }

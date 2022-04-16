@@ -4,45 +4,58 @@
 #include <stdio.h>
 #include <vector>
 #include <algorithm>
+#include <cmath>
 using namespace std;
 
-int t, n; 
-long long q, sum, bucket, max;
-long long fi[5000001], ar[5000001];
-vector<long long> v[5000001];
+int t, n, cnt, bucket; 
+long long q, u, v, w, len;
+long long b[101][10000001], s[11];
+
+void init()
+{
+    scanf("%d%lld", &n, &q);
+    for ( int i=2; i<=11; i++ )
+        s[i] = 0;
+
+    u = v = len = 1;
+    s[1] = 2;
+    b[1][0] = 1 , b[1][1] = 1;
+    while ( pow( bucket, len) < q )
+        len++;
+}
 
 int main()
 {
-    fi[0] = 1, fi[1] = 1;
-    for (int i=2; i<5000000; ++i)
-        fi[i] = fi[i-1] + fi[i-2];
+    bucket = 10;
 
     scanf("%d", &t);
     while ( t-- )
     {
-        scanf("%d%d", &n, &q);
+        init();
 
-        max = -1;
-        for ( int i=0; i<n; i++ )
-            ar[i] = fi[i] % q;
-
-        max = ar[n], bucket = 0;
-        while ( max > 0 )
+        for ( int i=2; i<n; i++ )
         {
-            bucket++;
-            max /= q;
+            w = ( u + v ) % q;
+            u = v, v = w;
+
+            cnt = 1;
+            while ( pow(bucket, cnt) < w )
+                cnt++;
+
+            b[cnt][ s[cnt] ] = w, s[cnt]++;
         }
 
-        for ( int i=0; i<bucket; ++i )
-        {
-            int power = pow(q, i);
-            int new_array[n];
-        }
+        for ( int i=1; i<=len; i++ )
+            if ( s[i] > 1 )
+                sort( b[i], b[i] + s[i] );
 
-        sum = 0;
-        for (int i=0; i<n; ++i)
-            sum += (i+1) * v[i];
+        int seq = 1;
+        long long sum = 0;
+        for ( int i=1; i<=len; i++ )
+            for (int j=0; j<s[i]; j++)
+                sum += b[i][j]%q * seq%q, seq++;
+
+        printf("%lld\n", sum % q );
     }
-
     return 0;
 }
