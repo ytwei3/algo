@@ -1,57 +1,97 @@
-//
-/* 758 - Fibonacci Sequence */
-//
-#include <stdio.h>
-#include <vector>
-#include <algorithm>
-#include <cmath>
+#include <iostream>
+#include <cstring>
+#include <queue>
+
 using namespace std;
 
-int t, n, cnt, bucket; 
-long long q, u, v, w;
-vector<long long> b[1001];
+const int MAXN = 100005;
 
-int main()
-{
-    bucket = 60;
+int trie[MAXN][133];
+int fail[MAXN],num[MAXN],cnt[MAXN];
+int F[MAXN];
+string S;
+string P;
+int idx, cases = 1;
+int T_T;
+int N_N;
 
-    scanf("%d", &t);
-    while ( t-- )
-    {
-        scanf("%d%lld", &n, &q);
+void init(){
+    memset(trie,0,sizeof(trie));
+    memset(cnt,0,sizeof(cnt));
+    memset(num,0,sizeof(num));
+    memset(fail,0,sizeof(fail));
+    fail[0] = 0;
+    idx = 0;
+}
 
-        u = 1, v = 1;
-        b[1].push_back(1), b[1].push_back(1);
+void insert(int P_idx){
+    int n = P.length();
+    int u = 0;
+    for(int i = 0; i < n;i++){
+        int v = P[i];
+        if(!trie[u][v])
+            trie[u][v] = ++idx;
+        u = trie[u][v];
+    }
+    if(num[u] == 0){
+        num[u] = P_idx;
+        F[P_idx] = P_idx;
+    }
+    else{
+        F[P_idx] = num[u];
+    }
+    
+}
 
-        int len = 1;
-        while ( pow( bucket, len) < q )
-            len++;
+void getfail(){
+    //fail[0] = -1;
+    queue<int> que;
+    que.push(0);
 
-        for ( int i=2; i<n; i++ )
-        {
-            w = ( u + v ) % q;
-            u = v, v = w;
-
-            cnt = 1;
-            while ( pow(bucket, cnt) < w )
-                cnt++;
-            b[cnt].push_back(w);
+    while(!que.empty()){
+        int now = que.front();
+        que.pop();
+        for(int i = 0; i < 133;i++){
+            if(trie[now][i]){
+                fail[trie[now][i]] = now ==0 ? 0: trie[fail[now]][i];
+                que.push(trie[now][i]);
+            }
+            else{
+                trie[now][i] = now ==0 ? 0: trie[fail[now]][i];
+            }
         }
+    }
+}
 
-        for ( int i=1; i<=len; i++ )
-            sort( b[i].begin(), b[i].end() );
+void match(){
+    int u = 0;
+    int n = S.size();
+    for(int i = 0; i< n;i++){
+        u = trie[u][S[i]];
+        for(int j = u; j ; j = fail[j]){
+            if(num[j])
+                cnt[num[j]]++;
+        }
+    }
+}
 
-        int s = 1;
-        long long sum = 0;
-        for ( int i=1; i<=len; i++ )
-            for ( auto j : b[i] )
-                sum += j%q * s%q, s++;
-
-        printf("%lld\n", sum % q );
-
-        for (int i=1; i<=len; i++)
-            b[i].clear();
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin >> T_T;
+    while(T_T--){
+        init();
+        cin>> S >> N_N;
+        for(int i = 1; i <= N_N; i++){
+            cin >> P;
+            insert(i);
+        }
+        getfail();
+        match();
+        cout << "Case #" << cases++ << '\n';
+        for(int i = 1; i<= N_N;i++){
+            cout << cnt[F[i]] << '\n';
+        }
     }
     return 0;
 }
-

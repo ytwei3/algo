@@ -1,8 +1,7 @@
 //
 /* 556 - Propostional Satisfiblity */
 //
-//#include <stdio.h>
-#include <iostream>
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include <stack>
@@ -14,7 +13,7 @@
 using namespace std;
 
 int t, n;
-string str;
+char str[101];
 vector<char> v;
 stack<char> s;
 stack<int> si;
@@ -23,7 +22,9 @@ unordered_map<char, int> map;
 void i2p() // infix to Postfix
 {
     v.clear();
-    for (auto c : str)
+    for (int i=0; i != '\0'; i++)
+    {
+        char c = str[i];
         if ( isalpha(c) )
             v.push_back(c);
         else if ( c == '(' )
@@ -46,14 +47,10 @@ void i2p() // infix to Postfix
             }
             s.push(c);
         }
+    }
 
     while ( !s.empty() )
         v.push_back( s.top() ), s.pop();
-
-    puts("value in v");
-    for ( auto i : v )
-        cout << i << " ";
-    cout << endl;
 }
 int evaluate()
 {
@@ -90,17 +87,14 @@ int evaluate()
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
     map['('] = 5, map[')'] = 5;
     map['!'] = 4, map['&'] = 3, map['+'] = 2;
 
-    while ( getline(cin, str) )
+    while ( ~scanf("%s", str) )
     {
         i2p();
-        evaluate() ? cout << "YES" << endl 
-                    :cout << "NO" << endl;
+        evaluate() ? puts("YES")
+                    :puts("NO");
     }
     return 0;
 }

@@ -2,7 +2,6 @@
 // 2 - Output Format
 //
 #include <iostream>
-#define endl "\n"
 using namespace std;
 
 int t;
