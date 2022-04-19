@@ -18,18 +18,9 @@ using namespace std;
 
 int main()
 {
-    char str[5];
-
-    while ( ~scanf("%[^\n]", str) )
-    {
-        getchar();
-
-        puts("test range-based loop");
-        for ( int i=0; str[i] != '\0'; i++ )
-            printf("%d", str[i]);
-        printf("\n");
-
-    }
-
+    int a, b, c;
+    scanf("%d%d%d", &a, &b, &c);
+    a ^= a;
+    printf("%d %d %d\n", a, b, c);
     return 0;
 }

@@ -1,15 +1,9 @@
 //
 /* 556 - Propostional Satisfiblity */
 //
-#include <stdio.h>
-#include <string>
+#include <cstdio>
 #include <vector>
 #include <stack>
-#include <unordered_map>
-//#include <algorithm>
-//#include <cmath>
-#define endl "\n"
-#define ll long long
 using namespace std;
 
 int t, n;
@@ -17,15 +11,14 @@ char str[101];
 vector<char> v;
 stack<char> s;
 stack<int> si;
-unordered_map<char, int> map;
 
 void i2p() // infix to Postfix
 {
     v.clear();
-    for (int i=0; i != '\0'; i++)
+    for (int i=0; str[i] != '\0'; i++)
     {
         char c = str[i];
-        if ( isalpha(c) )
+        if ( c > 96 && c < 123 )
             v.push_back(c);
         else if ( c == '(' )
             s.push(c);
@@ -40,7 +33,8 @@ void i2p() // infix to Postfix
         }
         else
         {
-            while ( !s.empty() && s.top() != '(' && map[s.top()] > map[c] )
+            while ( !s.empty() && 
+                    s.top() != '(' && s.top() <= c )
             {
                 v.push_back( s.top() );
                 s.pop();
@@ -48,7 +42,6 @@ void i2p() // infix to Postfix
             s.push(c);
         }
     }
-
     while ( !s.empty() )
         v.push_back( s.top() ), s.pop();
 }
@@ -56,24 +49,24 @@ int evaluate()
 {
     int ans, op, op1, op2;
     for (auto i : v)
-        if ( isalpha(i) )
+        if ( i > 96 && i < 123 )
             si.push(1);
         else
         {
-            if ( map[i] == 4 )
+            if ( i == '!' )
             {
                 op1 = si.top(), si.pop();
-                op =! op1;
+                op ^= 1;
                 si.push(op);
             }
-            else if ( map[i] == 3 )
+            else if ( i == '&' && si.size() > 1)
             {
                 op1 = si.top(), si.pop();
                 op2 = si.top(), si.pop();
                 op = op1 & op2 ;
                 si.push(op);
             }
-            else if ( map[i] == 2 )
+            else if ( i == '+' && si.size() > 1)
             {
                 op1 = si.top(), si.pop();
                 op2 = si.top(), si.pop();
@@ -87,9 +80,6 @@ int evaluate()
 
 int main()
 {
-    map['('] = 5, map[')'] = 5;
-    map['!'] = 4, map['&'] = 3, map['+'] = 2;
-
     while ( ~scanf("%s", str) )
     {
         i2p();

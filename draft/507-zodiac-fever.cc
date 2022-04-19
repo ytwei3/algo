@@ -1,22 +1,28 @@
 //
+/* 507 - Zodiac Fever */
 //
-//
-#include <stdio.h>
-//#include <iostream>
-//#include <vector>
-//#include <string>
-//#include <algorithm>
-//#include <cmath>
-//#include <unoredered_map>
-#define INF = 0x3f3f3f3f
-#define ll = long long
-//using namespace std;
-//std::ios::sync_with_stdio(false), std::cin.tie(0);
+#include <cstdio>
+#include <vector>
+using namespace std;
 
 
-int main()
+int room, corridor, trap, entrance;
+int initial_ring_position, treasure_room, open_ring_position;
+vector<int> ar[101];
+
+
+int main ()
 {
-    scanf("");
+    while ( ~scanf("%d%d%d%d%d%d%d", &room, &corridor, &trap,
+                &entrance, &initial_ring_position, &treasure_room, 
+                &open_ring_position) )
+    {
+        while ( corridor-- )
+        {
+            scanf("%d%d", &a, &b);
+        }
 
+    }
     return 0;
 }
+
