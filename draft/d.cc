@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <array>
+#include <cstring>
 #include <string>
 #include <list>
 #include <stack>
@@ -16,11 +17,14 @@
 #define endl "\n"
 using namespace std;
 
+
+int n, t;
+char str[51];
+unordered_map<char*, int> m;
+
 int main()
 {
-    int a, b, c;
-    scanf("%d%d%d", &a, &b, &c);
-    a ^= a;
-    printf("%d %d %d\n", a, b, c);
+    cin >> t >> n;
+    cout << t%n << endl;
     return 0;
 }

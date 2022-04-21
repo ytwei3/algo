@@ -1,23 +1,21 @@
-// 272 - Smart Customer
 //
+/* 272 - Smart Customer */
 //
-#include <stdio.h>
+#include <cstdio>
 
-float p;
-int m;
+int dp[11][11];
 
 int main ()
 {
-    int c = 1;
-    while ( scanf("%f", &p) != EOF )
+    float p;
+    int c = 1, t;
+    while ( ~scanf("%f%d", &p, &t) )
     {
-        scanf("%d", &m);
-        printf("Case %d\n:", c++);
-
-        while ( m-- )
+        while ( t-- )
         {
+            scnaf("%d%f", &p, &n );
         }
-
+        printf("Case %d\n:", c++);
         printf("Buy for $%.2f\n" , p);
 
     }

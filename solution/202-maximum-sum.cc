@@ -1,11 +1,12 @@
-// 202 - Maximum Sum
+// 
+/* 202 - Maximum Sum */
 //
 // #dynamic programming
-#include <stdio.h>
+#include <cstdio>
 
 int ma[103][103];
 int dp[103];
-int const MIN = -0x3f3f3f3f;
+int const INF = 0x3f3f3f3f;
 
 int main() 
 {
@@ -19,7 +20,7 @@ int main()
 
         }
 
-        int max = MIN, sum = MIN;
+        int max = -INF, sum = -INF;
         for (int i=0; i<n; ++i)
         {
             for (int s=0; s<n; ++s)
@@ -41,7 +42,9 @@ int main()
 
                     if ( tmp > sum )
                         sum = tmp;
+                    printf("This time i is :%d, j is %d, h is %d, sum is: %d\n", i, j, h, sum);
                 }
+                puts("");
 
                 if( sum > max )
                     max = sum;

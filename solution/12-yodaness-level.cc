@@ -1,9 +1,7 @@
 //
 // 12 - Yodaness Level
 //
-//#include <stdio.h>
 #include <iostream>
-//#include <array>
 #include <string>
 #include <vector>
 #include <unordered_map>
