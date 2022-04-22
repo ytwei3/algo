@@ -21,37 +21,36 @@ struct tr
     int n;
 };
 
-int room, corridor, trap, entrance;
+int r, c, t, en;
 int initial_ring_position, treasure_room, open_ring_position;
 int dis[1001][13], vis[1001][13];
 const int INF = 0x3f3f3f3f;
 vector< pair<int, int> > ar[1001];
-unordered_map<int, tr> map;
+tr oper[1001];
 
 void init ()
 {
-    for (int i=1; i<=room; i++)
-        ar[i].clear();
+    for (int i=1; i<=r; i++)
+        ar[i].clear(), oper[i] = { 0, -1 };
 
-    for (int i=1; i<=room; i++)
-        for (int j=1; j<=12; j++)
+    for (int i=1; i<=r; i++)
+        for (int j=0; j<=12; j++)
             vis[i][j] = 0, dis[i][j] = INF;
 
-    map.clear();
 
     int a, b, c;
     char op;
-    for (int i=0; i<corridor; i++)
+    for (int i=0; i<c; i++)
     {
         scanf("%d%d%d", &a, &b, &c);
         ar[a].push_back( { b, c } );
         ar[b].push_back( { a, c } );
     }
 
-    for (int i=0; i<trap; i++)
+    for (int i=0; i<t; i++)
     {
         scanf("%d%c%d", &a, &op, &b);
-        map[a] = { op, b };
+        oper[a] = { op, b };
     }
 }
 int check(int ns)
@@ -62,26 +61,29 @@ int check(int ns)
         ns += 12;
     return ns;
 }
-int operatrion(int where, int status, tr p)
+int operatrion(int status, tr p)
 {
-    int ns; // now status
     if (p.op == '+')
-        ns = status + p.n;
+        status += p.n;
     else if ( p.op == '-' )
-        ns = status - p.n;
+        status -= p.n;
     else if ( p.op == '*' )
-        ns = status - p.n;
+        status *= p.n;
     else
-        ns = p.n;
+        return status;
 
-    return check(ns);
+    return check(status);
 }
 void dijkstra()
 {
+    int status = initial_ring_position;
     priority_queue<edge> q;
-    int status = operatrion(entrance, initial_ring_position, map[entrance]);
-    if ( map.count( entrance ) )
+
+    if ( oper[entrance].n != -1 )
+    {
+        status = operatrion(initial_ring_position, oper[entrance]);
         dis[entrance][ status ] = 0;
+    }
     q.push({ entrance, 0, status });
 
     while ( !q.empty() )
@@ -89,13 +91,17 @@ void dijkstra()
         edge e = q.top();
         q.pop();
 
+        printf("The value of this e is %d %d %d\n", e.u, e.w, e.s);
+
         if ( !vis[e.u][e.s] )
         {
+            // ns - next status
             int ns;
-            if ( map.count(e.u) )
-                ns = operatrion(e.u, e.s, map[e.u]);
+            if ( oper[e.u].n != -1 )
+                ns = operatrion(e.s, oper[e.u]);
             else
                 ns = e.s;
+            printf("The value of next status: %d", ns);
 
             vis[e.u][e.s] = 1;
             for ( auto i: ar[e.u] )
@@ -120,7 +126,9 @@ int main ()
                 &open_ring_position) )
     {
         init();
+
         dijkstra();
+
         dis[treasure_room][open_ring_position] == INF ? puts("Pary!") : printf("%d\n", dis[treasure_room][open_ring_position]);
     }
     return 0;

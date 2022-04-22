@@ -72,6 +72,7 @@ int main ()
         init();
 
         dijkstra();
+
         printf("Set #%d\n", set++);
         dis[n-1][1] == INF ? puts("?") : printf("%d\n", dis[n-1][1]);
     }

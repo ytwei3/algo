@@ -1,52 +1,86 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <cmath>
-
+#include"stdio.h"
+#include"string.h"
+#include"iostream"
+#define M 111
+#define inf 99999999
+#define eps 1e-9
+#include"math.h"
 using namespace std;
-
-void radixSort(int* arrayL, int digit, int len) {
-    int digitValue;
-    for (int i = 1; i <= digit; i++) {
-        vector<int> digitValueList[10];
-
-        for (int j = 0; j != len; j++) {
-            //得到位值，相同位值得就加在后面，这样还是有序的。
-            digitValue = (arrayL[j] % (int)(pow(10.0, i)) - arrayL[j] %
-                                       (int)(pow(10.0, i - 1))) / pow(10.0, i - 1);
-            digitValueList[digitValue].push_back(arrayL[j]);
+int G[M][M],dis[M][M],path[M][M],n,b[M];
+void floyd()
+{
+    int i,j,k;
+    for(i=1;i<=n;i++)
+    {
+        for(j=1;j<=n;j++)
+        {
+            dis[i][j]=G[i][j];
+            path[i][j]=j;
         }
-        //把所有的元素读进数组
-        int count = 0;
-        for (int j = 0; j != 10; j++) {
-            for (int k = 0; k != digitValueList[j].size(); k++) {
-                arrayL[count] = digitValueList[j][k];
-                count++;
+    }
+    for(k=1;k<=n;k++)
+    {
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                if(dis[i][j]>dis[i][k]+dis[k][j]+b[k])
+                {
+                    dis[i][j]=dis[i][k]+dis[k][j]+b[k];
+                    path[i][j]=path[i][k];
+                }
+                else if(dis[i][j]==dis[i][k]+dis[k][j]+b[k])
+                {
+                    if(path[i][j]>path[i][k]&&i!=k)
+                        path[i][j]=path[i][k];
+                }
             }
         }
     }
 }
-
-void output(int* arrayL, int len) {
-    for (int i = 0; i != len; i++)
-        printf("%d ", arrayL[i]);
-}
-int main(int argc, char const *argv[])
+void solve(int i,int j)
 {
-    int lenOfArray;
-    int *arrayL;
-    printf("Enter the len of the array: ");
-    scanf("%d", &lenOfArray);
-    arrayL = new int[lenOfArray];
-    printf("Enter the elemrnt of array to sort: ");
-    for (int i = 0; i != lenOfArray; i++)
-        scanf("%d", &arrayL[i]);
-    int digit;
-    printf("Enter the len of biggest's digit: ");
-    scanf("%d", &digit);
-    radixSort(arrayL, digit, lenOfArray);
-    output(arrayL, lenOfArray);
-
-    delete []arrayL;
+    printf("From %d to %d :\n",i,j);
+    printf("Path: ");
+    int k=i;
+    printf("%d",i);
+    while(k!=j)
+    {
+        printf("-->%d",path[k][j]);
+        k=path[k][j];
+    }
+    printf("\n");
+    printf("Total cost : %d\n\n",dis[i][j]);
+}
+int main()
+{
+    int i,j;
+    while(scanf("%d",&n),n)
+    {
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                G[i][j]=inf;
+            }
+            G[i][i]=0;
+        }
+        for(i=1;i<=n;i++)
+        {
+            for(j=1;j<=n;j++)
+            {
+                int a;
+                scanf("%d",&a);
+                if(a!=-1)
+                    G[i][j]=a;
+            }
+        }
+        for (int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+                printf("%d", dis[i][j]);
+            puts("");
+        }
+    }
     return 0;
 }

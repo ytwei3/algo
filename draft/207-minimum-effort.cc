@@ -13,11 +13,6 @@ int t, n;
 string str;
 unordered_map<string, int> m;
 
-void solve()
-{
-    for (int i=0; i)
-
-}
 
 int main ()
 {

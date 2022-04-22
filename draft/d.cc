@@ -19,12 +19,12 @@ using namespace std;
 
 
 int n, t;
-char str[51];
-unordered_map<char*, int> m;
+char buf[51], c;
 
 int main()
 {
-    cin >> t >> n;
-    cout << t%n << endl;
+    while ( ~scanf("%[^\n]", buf) )
+        printf("%d", buf[0]);
+
     return 0;
 }
