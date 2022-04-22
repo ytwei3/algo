@@ -10,7 +10,7 @@ using namespace std;
 
 
 int t, n;
-string str;
+char str[51];
 unordered_map<string, int> m;
 
 void solve()

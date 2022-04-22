@@ -19,12 +19,11 @@ using namespace std;
 
 
 int n, t;
-char buf[51], c;
+string str;
 
 int main()
 {
-    while ( ~scanf("%[^\n]", buf) )
-        printf("%d", buf[0]);
+    cout << 4%1 << endl;
 
     return 0;
 }
