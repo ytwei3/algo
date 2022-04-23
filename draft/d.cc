@@ -23,7 +23,7 @@ string str;
 
 int main()
 {
-    cout << 4%1 << endl;
+    cout << " hello" << endl;
 
     return 0;
 }
