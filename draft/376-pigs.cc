@@ -1,16 +1,33 @@
 //
 /* 376 - pigs */
 //
-#include <stdio.h>
+#include <cstdio>
 
-int n, m;
+int n, res;
+int cap[1001], buy[1001];
+
+int dinic()
+{
+    return 1;
+}
 
 int main ()
 {
-    while ( ~scanf("%d%d", &n, &m) )
-        while ( n-- )
+    int m, cnt;
+    while ( ~scanf("%d%d", &m, &n) )
+    {
+        for (int i=1; i<=m; i++)
+            scanf("%d", &cap[i]);
+
+        for (int i=1; i<=m; i++)
         {
+            scanf("%d", &cnt);
+            while ( cnt-- )
+            {
+            }
         }
+        printf("%d", dinic());
+    }
     return 0;
 }
 

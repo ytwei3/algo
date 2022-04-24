@@ -23,7 +23,13 @@ string str;
 
 int main()
 {
-    cout << " hello" << endl;
+    int a, b;
+    char c;
+    scanf("%d %c%d", &a, &c, &b);
+    printf("The value of a: %d, b: %d, char: %c\n", a, b, c);
+
+    scanf("%d %c %d", &a, &c, &b);
+    printf("The value of a: %d, b: %d, char: %c\n", a, b, c);
 
     return 0;
 }
