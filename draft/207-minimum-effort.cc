@@ -36,10 +36,13 @@ int main ()
             while ( n-- )
             {
                 getline(cin, str);
+                cout << str << endl;
                 solve();
             }
         }
+
     }
+
     return 0;
 }
 

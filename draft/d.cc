@@ -20,25 +20,11 @@ using namespace std;
 
 int n, t;
 char str[10001];
+char buf[101];
+unordered_map<char*, int> m;
 
-int main(void)
+int main()
 {
-    float a, b;
-    fgets(str, sizeof(str), stdin);
-    scanf("%f%f", &a, &b);
-    char *data = str;
-    int offset;
-    int n;
-    int sum = 0;
 
-    while (sscanf(data, "%d%n", &n, &offset) == 1)
-    {
-        sum += n;
-        data += offset;
-        printf("%c", *data);
-        printf("read: %5d; sum = %5d; offset = %5d\n", n, sum, offset);
-    }
-
-    printf("sum = %d\n", sum);
     return 0;
 }

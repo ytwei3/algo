@@ -1,7 +1,7 @@
 //
-// 98 - Trees
+/* 98 - Trees */
 //
-#include <stdio.h>
+#include <cstdio>
 
 int p[505];
 
