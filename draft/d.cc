@@ -23,8 +23,16 @@ char str[10001];
 char buf[101];
 unordered_map<char*, int> m;
 
+void go(int a, int n)
+{
+    if ( n == 0 )
+        return;
+    cout << a << endl;
+    go(a, --n);
+}
 int main()
 {
 
+    go(1, 2);
     return 0;
 }

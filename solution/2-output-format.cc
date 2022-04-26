@@ -1,20 +1,19 @@
 //
-// 2 - Output Format
+/* 2 - Output Format */
 //
-#include <iostream>
-using namespace std;
+#include <cstdio>
 
-int t;
+char buf[10];
 
 int main()
 {
-    ios::sync_with_stdio(false), cin.tie(0);
+    fgets(buf, sizeof(buf), stdin);
+    fputs(buf, stdout);
 
-    cin >> t;
-    cout << t << endl;
-
-    while ( cin >> t )
-        cout << endl << t << endl;
-
+    while (fgets(buf, sizeof(buf), stdin))
+    {
+        putchar('\n');
+        fputs(buf, stdout);
+    }
     return 0;
 }
