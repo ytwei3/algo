@@ -7,17 +7,6 @@
 #include <unordered_map>
 using namespace std;
 
-struct edge
-{
-    int u;
-    long long w;
-    int s;
-    long long operator < ( const edge &e ) const
-    {
-        return w > e.w;
-    }
-};
-
 int r, en, cor, trap, initPos, trPos, openPos;
 int vis[1001][13];
 long long dis[1001][13];
@@ -51,13 +40,8 @@ void init ()
         m[a] = { op, b };
     }
 }
-int operatrion(int entrance, int status)
+int operatrion(int status, pair<char, int> p)
 {
-    if ( !m.count(entrance) )
-        return status;
-
-    pair<char, int> p = m[entrance];
-
     if (p.first == '+')
         status += p.second;
     else if ( p.first == '-' )
@@ -75,36 +59,9 @@ int operatrion(int entrance, int status)
 
     return status;
 }
-void dijkstra()
+void floyd()
 {
-    priority_queue<edge> q;
 
-    dis[en][ operatrion(en, initPos) ] = 0;
-    q.push({ en, 0, operatrion(en, initPos) });
-
-    while ( !q.empty() )
-    {
-        edge e = q.top();
-        q.pop();
-
-        if ( !vis[e.u][e.s] )
-        {
-            vis[e.u][e.s] = 1;
-
-            for ( auto i : ar[e.u] )
-            {
-                int nx = operatrion(i.first, e.s);
-                long long weight = dis[e.u][ e.s ] + i.second;
-
-                if ( weight < dis[i.first][ nx ] )
-                {
-                    dis[i.first][ operatrion(i.first, e.s) ] = weight;
-                    q.push( { i.first, weight, nx } );
-                }
-            }
-        }
-    }
-    return ;
 }
 
 
@@ -115,7 +72,7 @@ int main ()
     {
         init();
 
-        dijkstra();
+        floyd();
 
         dis[trPos][openPos] == INF ? puts("Pray!") : printf("%lld\n", dis[trPos][openPos]);
     }

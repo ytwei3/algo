@@ -18,21 +18,18 @@
 using namespace std;
 
 
-int n, t;
 char str[10001];
 char buf[101];
 unordered_map<char*, int> m;
 
-void go(int a, int n)
-{
-    if ( n == 0 )
-        return;
-    cout << a << endl;
-    go(a, --n);
-}
 int main()
 {
+    int n = 12345, t;
+    t = printf("%d\n", n);
+    printf("%d\n", t);
 
-    go(1, 2);
+    if ( !0 )
+        puts("NO");
+
     return 0;
 }

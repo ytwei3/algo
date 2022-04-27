@@ -130,7 +130,7 @@ int main()
             for (int j=0; j<m; j++ )
                 grid2[i][j] = grid1[i][j];
 
-        printf("%d\n", max(flip1(), flip2()) );
+        printf("%d\n", flip1() > flip2() ? flip1() : flip2());
     }
     return 0;
 }

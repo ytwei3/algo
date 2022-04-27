@@ -6,23 +6,33 @@ using namespace std;
 
 
 int t;
+void out(int a)
+{
+    printf("%d\n", a);
+}
+int foo( int a, int b )
+{
+    while ( a>=b )
+    {
+        a -=b;
+    }
+    return a;
+}
+
 
 int main ()
 {
     int a, k, n, result;
     while ( ~scanf("%d%d%d", &a, &k, &n) )
     {
-        a = a % n;
-        a = a % k;
+        a = foo(a, n);
         result = 1;
-
+        foo(a, k);
         while ( k-- )
         {
             result *= a;
-            if ( n&(n-1) )
-                result %= n;
-            else
-                result = result & (n-1);
+            out(result);
+            result = (n&(n-1)) ? (foo(result, n)) : ( result & (n-1) );
         }
         printf("%d\n", result);
     }

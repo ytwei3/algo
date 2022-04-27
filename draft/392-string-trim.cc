@@ -4,71 +4,31 @@
 // printf() = sprintf() + puts()
 // gets() was banned
 // \0, \r, \t are different!
-#include <iostream>
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
-#include <string>
-//#include <cmath>
-//#include <algorithm>
-//#include <unoredered_map>
+#include <cstring>
 using namespace std;
 
 int t;
-string str, res;
+char buf[129], str[129];
 vector<char> v, f;
-
-void trim()
-{
-    auto b = v.begin(), e = v.end()-1;
-    if ( f.empty() )
-    {
-        while ( *b == ' ' && b != e )
-            b++;
-        
-        cout << "\"" << *e  << "\"" << endl;
-
-        while ( *e == ' ' && b != e )
-            e--;
-
-        cout << "\"";
-        while ( b != e )
-        {
-            cout << *b;
-            b++;
-        }
-        cout << *b << "\"";
-    }
-}
 
 int main()
 {
-    ios::sync_with_stdio(false), cin.tie(0);
     scanf("%d", &t);
+    getchar();
 
     while ( t-- )
     {
-        getline(cin, str);
-        int cnt = 0;
-        for (auto i : str)
+        while ( getchar() != '\n' )
         {
-            if ( i == '"' && cnt < 3 )
-            {
-                cnt++;
-                continue;
-            }
-            else if ( i == '"' && cnt == 3 )
-            {
-                trim();
-                cnt = 0;
-                continue;
-            }
+            scanf("%[^\"]", buf);
+            getchar(), getchar(), getchar();
+            scanf("%[^\"]", str);
 
-            if ( cnt < 2 )
-                v.push_back(i);
-            else
-                f.push_back(i);
+            puts(buf), puts(str);
+            printf("%zu %zu\n", strlen(buf), strlen(str));
         }
-        cout << res << endl;
     }
 
     return 0;

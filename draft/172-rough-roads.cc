@@ -50,8 +50,9 @@ void dijkstra()
 
         if ( !vis[e.u][e.s] )
         {
-            int ns =! e.s;
             vis[e.u][e.s] = 1;
+
+            int ns =! e.s;
             for (auto i : ar[e.u])
             {
                 int weight = dis[e.u][e.s] + i.second;
