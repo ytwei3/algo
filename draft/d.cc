@@ -17,10 +17,12 @@
 #define endl "\n"
 using namespace std;
 
+struct point
+{
+    int x, y;
+};
 
-char str[10001];
-char buf[101];
-unordered_map<char*, int> m;
+vector<point> v;
 
 int main()
 {
