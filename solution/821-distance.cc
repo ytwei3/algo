@@ -6,71 +6,58 @@
 // Sum of the Longest path and 
 // the second Longest path
 // from the root node. 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
+#define maxn 100000
 
-std::vector<int> aList[100001]; // 1 <= n <= 10^5
-std::vector<long long> weight[100001];
-int visit[100001];
+struct edge
+{
+    int v;
+    long long w;
+};
 
-int maxNode;
+std::vector<edge> ar[maxn+1]; // 1 <= n <= 10^5
+int vis[maxn+1];
+
+int maxNode, n;
 long long maxD;
 
 void dfs(int node, long long dist)
 {
-    visit[node] = 1;
+    vis[node] = 1;
 
     if (dist > maxD)
-    {
-        maxD = dist;
-        maxNode = node;
-    }
+        maxD = dist, maxNode = node;
 
-    auto iter = weight[node].begin();
-    for (auto i = aList[node].begin(); i != aList[node].end(); ++i)
-    {
-        if (visit[*i] == 0 )
-            dfs(*i, dist + *iter);
-        iter++;
-    }
-    
-}
-void buildGraph(int u, int v, long long d) 
-{
-    aList[u].push_back(v);
-    aList[v].push_back(u);
-
-    weight[u].push_back(d);
-    weight[v].push_back(d);
+    for ( auto i : ar[node] )
+        if ( !vis[i.v] )
+            dfs(i.v, dist + i.w);
 }
 
 int main ()
 {
-    int node;
-    //printf("Please enter the node: ");
-    scanf("%d", &node);
-    //printf("Please enter the u, v, distance: \n");
+    scanf("%d", &n);
 
     int u, v;
-    long long d;
-    while (node != 1 )
+    long long w;
+
+    for (int i=1; i<n; i++)
     {
-        // Build graph (adjency List)
-        scanf("%d %d %lld", &u, &v, &d);
-        buildGraph(u, v, d);
-        node--;
+        scanf("%d%d%lld", &u, &v, &w);
+        ar[u].push_back( { v, w } );
+        ar[v].push_back( { u, w } );
     }
 
     maxD = -1;
+    for (int i=1; i<=n; ++i)
+        vis[i] = 0;
     dfs(1, 0);
 
-    for (int i=0; i<100001; ++i)
-        visit[i] = 0;
-
     maxD = -1;
+    for (int i=1; i<=n; ++i)
+        vis[i] = 0;
     dfs(maxNode, 0);
 
-    //printf("The Distance is: ");
     printf("%lld\n", maxD);
 
     return 0;

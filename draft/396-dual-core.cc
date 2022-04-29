@@ -4,8 +4,8 @@
 #include <cstdio>
 #include <vector>
 #include <queue>
-#define maxn 201
-#define maxm 2001
+#define maxn 20001
+#define maxm 20001
 using namespace std;
 
 
@@ -14,79 +14,102 @@ struct edge
     int from, to, cap, flow;
 };
 
-int n, m, s, t;
+int n, m, s, t, tol;
 int head[maxn], ver[maxm], nx[maxm], edge[maxm], d[maxn];
 const int INF = 0x3f3f3f3f;
 
-void init()
-{
-    s = 0, t = n + 1;
-
-    for (int i=0; i<n; i++)
-        g[i].clear();
-    e.clear();
-}
 void add(int u, int v, int w)
 {
-    ver[++tol] = v, edge[tol] = z,
+    ver[++tol] = v;
+    edge[tol] = w;
+    nx[tol] = head[u];
+    head[u] = tol;
+
+    ver[++tol] = u;
+    edge[tol] = 0;
+    nx[tol] = head[v];
+    head[v] = tol;
+}
+void init()
+{
+    s = 0, t = n + 1, tol = 1;
+
+    for (int i=0; i<=maxn; i++)
+        head[i] = nx[i] = 0;
+
+    int a, b, c;
+    for (int i=1; i<=n; ++i)
+    {
+        scanf("%d%d", &a, &b);
+        add(s, i, a);
+        add(i, t, b);
+    }
+
+    for (int i=0; i<m; i++)
+    {
+        scanf("%d%d%d", &a, &b, &c);
+        add(a, b, c);
+        add(b, a, c);
+    }
+
 }
 int bfs()
 {
-    for (int i=0; i<=n; i++)
-        vis[i] = 0;
+    for (int i=0; i<=maxn; i++)
+        d[i] = 0;
 
     queue<int> q;
     q.push(s);
-    vis[s] = 1;
+    d[s] = 1;
 
     while ( !q.empty() )
     {
         int x = q.front();
         q.pop();
-        for (int i=0; i<g[x].size(); i++)
+
+        for (int i=head[x]; i ; i = nx[i])
         {
-            edge ed = e[ g[x][i] ];
-            if ( !vis[ed.to] && ed.cap > ed.flow )
+            if ( edge[i] && !d[ ver[i] ] )
             {
-                vis[ed.to] = 1;
-                d[ed.to] = d[x] + 1;
-                q.push(ed.to);
+                q.push( ver[i] );
+                d[ ver[i] ] = d[x] + 1;
+
+                if ( ver[i] == t )
+                    return 1;
             }
         }
     }
-    return vis[t];
+    return 0;
 }
 int dfs(int x, int a)
 {
     if ( x == t || !a )
         return a;
-    int flow = 0, f;
-    for (int i = cur[x]; i < g[x].size(); i++)
+
+    int flow = 0;
+    for (int i = head[x]; i ; i = nx[i])
     {
-        edge ed = e[ g[x][i] ];
-        if ( d[x] + 1 == d[ed.to] &&
-                ( f = dfs(ed.to, min(a, ed.cap - ed.flow)) ) > 0)
+        if ( edge[i] && d[ ver[i] ] == d[x] + 1 )
         {
-            ed.flow += f;
-            e[ g[x][i]^1 ].flow -= f;
-            flow += f;
-            a -= f;
-            if ( !a )
-                break;
+            int k = dfs( ver[i], min( a - flow, edge[i]) );
+            edge[i] -= k;
+            edge[i^1] += k;
+            flow += k;
+
+            if ( flow == a )
+                return flow;
         }
     }
+    if ( !flow )
+        d[x] = 0;
     return flow;
 }
 int dinic()
 {
     int maxflow = 0;
     while ( bfs() )
-    {
-        for (int i=1; i<=n; i++)
-            cur[i] = 0;
-
         maxflow += dfs( s, INF );
-    }
+
     return maxflow;
 }
 
@@ -95,21 +118,6 @@ int main ()
     while ( ~scanf("%d%d", &n, &m) )
     {
         init();
-
-        int a, b, c;
-        for (int i=1; i<=n; ++i)
-        {
-            scanf("%d%d", &a, &b);
-            addEdge(s, i, a);
-            addEdge(i, t, b);
-        }
-
-        for (int i=0; i<m; i++)
-        {
-            scanf("%d%d%d", &a, &b, &c);
-            addEdge(a, b, c);
-            addEdge(b, a, c);
-        }
 
         printf("%d\n", dinic() );
     }
