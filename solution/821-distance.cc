@@ -10,13 +10,7 @@
 #include <vector>
 #define maxn 100000
 
-struct edge
-{
-    int v;
-    long long w;
-};
-
-std::vector<edge> ar[maxn+1]; // 1 <= n <= 10^5
+std::vector<int> ar[maxn+1]; // 1 <= n <= 10^5
 int vis[maxn+1];
 
 int maxNode, n;
