@@ -18,12 +18,20 @@
 using namespace std;
 
 
+unordered_map<string, int> m;
 
 int main()
 {
-    int n;
-    scanf("%d", &n);
+    int n = 2;
+    while ( n-- )
+    {
+        string str;
+        fgets(str, sizeof(str), stdin);
+        m[str] = n;
+    }
+    char q[100];
+    while ( ~scanf("%s", q) )
+        printf("%d\n", m[q]);
 
-    printf("%d", (n << 31) -1 );
     return 0;
 }

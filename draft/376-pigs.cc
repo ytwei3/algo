@@ -2,9 +2,11 @@
 /* 376 - pigs */
 //
 #include <cstdio>
+#define maxn 100
+#define maxm 1000
 
 int n, res;
-int cap[1001], buy[1001];
+int vis[maxn+1];
 
 int dinic()
 {
