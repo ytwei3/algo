@@ -1,25 +1,49 @@
 //
 /* 748 - Dynamic Quad Tree */
 // 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
+#define maxn 1024
 
-int t, n, k, m, r, c;
-int qa[1025][1025];
+struct node
+{
+    int val;
+    node *nw, *sw, *se, *ne;
+} qa[maxn+1][maxn+1];
+
+int n, k, base, offset;
+
+void build()
+{
+    int it = 1;
+    while ( 1 )
+    {
+        while ( it < n )
+        {
+
+        }
+        if ( it * 2 > base )
+            break;
+    }
+}
 
 int main()
 {
+    int t;
     scanf("%d", &t);
     while ( t-- )
     {
-        n = 1;
         scanf("%d", &k);
-        n <<= k;
+        n = 1 << k;
 
         for ( int i=1; i<=n; i++ )
             for ( int j=1; j<=n; j++ )
-                scanf("%1d", &qa[i][j]);
+                scanf("%1d", &qa[i][j].val);
 
+        base = , offset = 1;
+        build();
+
+        int m, r, c;
         scanf("%d", &m);
         while ( m-- )
         {
