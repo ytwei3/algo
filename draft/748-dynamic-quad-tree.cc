@@ -2,30 +2,62 @@
 /* 748 - Dynamic Quad Tree */
 // 
 #include <cstdio>
-#include <vector>
+#include <cmath>
 #define maxn 1024
 
-struct node
-{
-    int val;
-    node *nw, *sw, *se, *ne;
-} qa[maxn+1][maxn+1];
+int n, k, base, res;
+int q[11][maxn+1][maxn+1];
 
-int n, k, base, offset;
-
-void build()
+void go()
 {
-    int it = 1;
-    while ( 1 )
+    res = 1;
+    base = n;
+    int seq = 0;
+
+    while ( seq < k )
     {
-        while ( it < n )
-        {
+        base /= 2;
+        for (int i=0; i<base; i++)
+            for (int j=0; j<base; j++)
+            {
+                int sum = q[seq][i*2][j*2] + q[seq][i*2+1][j*2] + q[seq][i*2][j*2+1] + q[seq][i*2+1][j*2+1];
 
-        }
-        if ( it * 2 > base )
-            break;
+                q[seq+1][i][j] = sum;
+
+                if ( sum != 0 && sum != pow( 4, seq+1 ) )
+                    res += 4;
+            }
+
+        seq++;
     }
 }
+void flip(int r, int c)
+{
+    int seq = 0;
+    q[0][r][c] = !q[0][r][c];
+
+    if ( r % 2 )
+        r--;
+    if ( c % 2 )
+        c--;
+
+    while ( seq < k )
+    {
+        int sum = q[seq][r][c] + q[seq][r+1][c] + q[seq][r][c+1] + q[seq][r+1][c+1];
+        int *nx = &q[seq+1][r/2][c/2], ce = pow( 4, seq+1 );
+
+        if ( sum == 0 || ( sum == ce ) )
+            *nx = sum, res -= 4;
+        else if ( ( sum == 1 && *nx == 0 ) 
+                || ( sum == ce - 1 && *nx == ce ) )
+            *nx = sum, res += 4;
+        else
+            break;
+
+        r /= 2, c /= 2, seq++;
+    }
+}
+
 
 int main()
 {
@@ -36,20 +68,21 @@ int main()
         scanf("%d", &k);
         n = 1 << k;
 
-        for ( int i=1; i<=n; i++ )
-            for ( int j=1; j<=n; j++ )
-                scanf("%1d", &qa[i][j].val);
+        for ( int i=0; i<n; i++ )
+            for ( int j=0; j<n; j++ )
+                scanf("%1d", &q[0][i][j]);
 
-        base = , offset = 1;
-        build();
+        go();
 
         int m, r, c;
         scanf("%d", &m);
         while ( m-- )
         {
             scanf("%d%d", &r, &c);
-            qa[r][c] =! qa[r][c];
-            printf("%d", );
+
+            flip(r-1, c-1);
+
+            printf("%d\n", res);
         }
     }
     return 0;

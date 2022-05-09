@@ -2,127 +2,129 @@
 /* 376 - pigs */
 //
 #include <cstdio>
-#include <vector>
 #include <queue>
-#define maxm 1000
+#define maxm 1111
 using namespace std;
 
 
 struct edge
 {
-    int from, to, cap;
+    int from, to, cap, flow;
 };
 
 int n, m, s, t, tol;
-int head[maxm+1], cur[maxm+1], d[maxm+1];
+int head[maxm], ver[maxm], nx[maxm], edge[maxm], d[maxm];
+int vis[maxm];
 const int INF = 0x3f3f3f3f;
 
-vector<edge> e;
-vector<int> g[maxm+1];
-
-void add(int from, int to, int cap)
+void add(int u, int v, int w)
 {
-    e.push_back({ from, to, cap });
-    e.push_back({ to, from, 0 });
+    ver[++tol] = v;
+    edge[tol] = w;
+    nx[tol] = head[u];
+    head[u] = tol;
 
-    int tol = e.size();
-    g[from].push_back( tol-2 );
-    g[to].push_back( tol-1 );
+    ver[++tol] = u;
+    edge[tol] = 0;
+    nx[tol] = head[v];
+    head[v] = tol;
 }
 int bfs()
 {
-    for (int i=0; i<=maxm; i++)
-        d[i] = -1;
-    d[s] = 0;
+    for (int i=0; i<maxm; i++)
+        d[i] = 0;
 
     queue<int> q;
     q.push(s);
+    d[s] = 1;
 
     while ( !q.empty() )
     {
         int x = q.front();
         q.pop();
 
-        for (int i=0; i < g[x].size(); i++ )
+        for (int i=head[x]; i ; i = nx[i])
         {
-            edge& ed = e[ g[x][i] ];
-            if ( d[ ed.to ] == -1 && ed.cap > 0 )
+            if ( edge[i] && !d[ ver[i] ] )
             {
-                d[ ed.to ] = d[x] + 1;
-                q.push( ed.to );
+                q.push( ver[i] );
+                d[ ver[i] ] = d[x] + 1;
+
+                if ( ver[i] == t )
+                    return 1;
             }
         }
     }
-    return d[t] != -1;
+    return 0;
 }
 int dfs(int x, int a)
 {
     if ( x == t || !a )
         return a;
 
-    int flow = 0, f;
-    for (int& i = cur[x]; i < g[x].size() ; i++ )
+    int flow = 0;
+    for (int i = head[x]; i ; i = nx[i])
     {
-        edge &ed = e[ g[x][i] ];
-        if ( (f = dfs( ed.to, min( a, ed.cap) )) > 0 && d[ ed.to ] == d[x] + 1 )
+        if ( edge[i] && d[ ver[i] ] == d[x] + 1 )
         {
-            ed.cap -= f;
-            e[ g[x][i]^1 ].cap += f;
-            flow += f;
-            a -= f;
+            int k = dfs( ver[i], min( a - flow, edge[i]) );
+            edge[i] -= k;
+            edge[i^1] += k;
+            flow += k;
 
-            if ( flow == 0 )
-                break;
+            if ( flow == a )
+                return flow;
         }
     }
+    if ( !flow )
+        d[x] = 0;
     return flow;
 }
 int dinic()
 {
     int maxflow = 0;
     while ( bfs() )
-    {
-        for (int i=0; i<=maxm; i++)
-            cur[i] = 0;
-
         maxflow += dfs( s, INF );
-    }
+
     return maxflow;
 }
 void build()
 {
-    int a, b, c, pre[maxm+1], pig[maxm+1];
+    int pig[maxm], pre[maxm];
     for (int i=0; i<=maxm; i++)
-        pre[i] = -1;
+        pre[i] = 0; 
+
+    for (int i=0; i<=maxm; i++)
+        head[i] = nx[i] = 0;
 
     for (int i=1; i<=m; i++)
         scanf("%d", &pig[i]);
 
     for(int i=1; i<=n; i++)
     {
+        int a, b;
         scanf("%d",&a);
         while ( a-- )
         {
             scanf("%d",&b);
-
-            pre[b] == -1 ? add(s, i, pig[b])
-                        : add(pre[b], i, INF);
+            !pre[b] ? add(s, i, pig[b]) : add(pre[b], i, INF);
             pre[b]= i;
         }
-        scanf("%d",&c);
-        add(i, t, c);
+
+        scanf("%d",&a);
+        if ( a != 0 )
+            add(i, t, a);
     }
-    n+=2;
 }
 
 int main ()
 {
-    while ( ~scanf("%d%d", &m, &n) )
-    {
-        s = 0, t = n + 1, tol = 0;
-        build();
+    scanf("%d%d", &m, &n);
+    s = 0, t = n + 1, tol = 1;
 
-        printf("%d\n", dinic() );
-    }
+    build();
+
+    printf("%d\n", dinic());
+
     return 0;
 }
