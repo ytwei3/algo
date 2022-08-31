@@ -5,13 +5,11 @@
 #include <vector>
 using namespace std;
 
-
 int t;
 
-
-int main ()
+int main()
 {
+    puts("hallo");
 
     return 0;
 }
-
