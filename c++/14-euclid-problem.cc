@@ -1,28 +1,16 @@
-//
-// 14 - Euclid Problem
-//
-//#include <stdio.h>
-#include <iostream>
-#include <array>
-//#include <string>
-//#include <vector>
-//#include <unordered_map>
-//#include <algorithm>
+#include <cstdio>
 #include <cmath>
-#define endl "\n"
-#define ll long long
 using namespace std;
 
 // Extended Euclid algo
-ll gcd(ll p, ll q, ll *x, ll *y)
+long long gcd(long long p, long long q, long long *x, long long *y)
 {
-    ll m, n, g;
+    long long m, n, g;
 
     if ( q > p )
         return gcd(q, p , y, x);
 
-    if ( q == 0 )
-    {
+    if ( q == 0 ) {
         *x = 1;
         *y = 0;
         return p;
@@ -38,17 +26,10 @@ ll gcd(ll p, ll q, ll *x, ll *y)
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    ll a, b, x, y, d;
-    while ( cin >> a >> b )
-    {
+    long long a, b, x, y, d;
+    while ( ~scanf("%lld%lld", &a, &b) ) {
         d = gcd(a, b, &x, &y);
-
-        cout << x << " " << y
-             << " " << d << endl;
+        printf("%lld %lld %lld\n", x, y, d);
     }
-
     return 0;
 }

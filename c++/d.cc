@@ -1,6 +1,13 @@
 #include <stdio.h>
+#include <list>
 #include <queue>
 using namespace std;
-int main() {
-    printf("%d\n", 1 & 0);
+
+list<int> l;
+
+int main()
+{
+    char str[3];
+    fgets(str, sizeof(str), stdin);
+    fputs(str, stdout);
 }
