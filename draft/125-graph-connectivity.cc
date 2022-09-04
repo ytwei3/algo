@@ -1,40 +1,39 @@
 #include <cstdio>
 
-int ar[26];
-char str[4];
+char ar[26], str[4];
 
-int find(int x)
+char find(char x)
 {
-    while (x != ar[x])
-        x = ar[x];
+    if (x != ar[x])
+        ar[x] = find(ar[x]);
     return ar[x];
 }
 
 int main()
 {
-    int t;
+    int t, ans;
     scanf("%d ", &t);
 
-    int a, b, c, d, len, ans;
+    char a, b, c, d, len;
     while (t--) {
         fgets(str, sizeof(str), stdin);
-        len = str[0] - 64;
-        for(int i=0; i<len; i++)
-            ar[i] = i;
+        len = str[0];
+        for(char ch='A'; ch<=len; ch++)
+            ar[ch] = ch;
 
         while (fgets(str, sizeof(str), stdin) != NULL) {
-            if (str[0] == 10)
+            if (str[0] == '\n')
                 break;
-            a = str[0] - 65, b = str[1] - 65;
+            a = str[0], b = str[1];
             c = find(a), d = find(b);
             ar[c] = d;
         }
 
         ans = 0;
-        for(int i=0; i<len; i++)
-            if (ar[i] == i) ans++;
+        for(char ch='A'; ch<=len; ch++)
+            if (ar[ch] == ch) ans++;
         printf("%d\n", ans);
-        if (t != 0) puts("");
+        if (t != 0) putchar('\n');
     }
     return 0;
 }

@@ -1,12 +1,12 @@
-#include<iostream>
-using namespace std;
+#include<stdio.h>
 
-int main ()
+int
+main(void)
 {
-    int a, b;
+	int a, b;
 
-    while( cin >> a >> b ) {
-        cout << a + b << endl;
-    }
-    return 0;
+	while(scanf("%d%d", &a, &b) != EOF) {
+		printf("%d\n", a + b);
+	}
+	return 0;
 }
