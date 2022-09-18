@@ -3,11 +3,15 @@
 #include <queue>
 using namespace std;
 
-list<int> l;
 
 int main()
 {
-    char str[3];
-    fgets(str, sizeof(str), stdin);
-    fputs(str, stdout);
+	int ar[3] = {1, 2, 3};
+	for (int i=0; i<3; i++)
+	{
+		printf("%d ", ar[i]);
+		printf(" the value of pointrt: %d\n", *ar+i);
+	}
+	puts("");
+
 }

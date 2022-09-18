@@ -17,12 +17,11 @@
 #define endl "\n"
 using namespace std;
 
+priority_queue<int> q;
 
 int main()
 {
-    for (char i = 'A'; i < 'E'; i++) {
-        printf("%c", i);
-    }
-
-    return 0;
+	for (int i=0; i<1000000; i++) {
+		q.push(i);
+	}
 }
