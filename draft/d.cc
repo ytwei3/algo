@@ -14,14 +14,29 @@
 #include <unordered_map>
 #include <algorithm>
 #include <math.h>
-#define endl "\n"
 using namespace std;
 
-priority_queue<int> q;
+template< class T >
+struct is_copy_assignable {
+private:
+    template< class U, class
+        = decltype(declval<U&>() = declval<U const&>()) >
+    static true_type
+        try_assignment(U&&);
+    static false_type
+        try_assignment(...);
+public:
+    using type = decltype(try_assignment(delval<T>()));
+};
+
+void fun(int a, char c) {
+    printf("%d %c", a, c);
+}
 
 int main()
 {
-	for (int i=0; i<1000000; i++) {
-		q.push(i);
-	}
+    char c = '!';
+    int a = 1;
+    fun(c, a);
+    return 0;
 }
