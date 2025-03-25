@@ -102,15 +102,8 @@ def gravity_changable(matrix):
     for col in range(cols):
         count_f = 0
         for row in range(rows):
-            if row == rows - 1:
-                falling_row = row 
-                while count_f > 0:
-                    matrix[falling_row][col] = 'F'
-                    falling_row -= 1
-                    count_f -= 1
-
-            elif matrix[row][col] == '#':
-                falling_row = row - 1
+            if row == rows - 1 or matrix[row][col] == '#':
+                falling_row = row if row == rows - 1 else row - 1
                 while count_f > 0:
                     matrix[falling_row][col] = 'F'
                     falling_row -= 1
