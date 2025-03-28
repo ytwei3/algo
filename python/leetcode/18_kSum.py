@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Solution:
     def kSum(self, nums, target, k):
         nums.sort()
