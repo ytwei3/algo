@@ -1,41 +1,48 @@
-#[derive(Debug)]
-struct ListNode {
-    value: i32,
-    next: Option<Box<ListNode>>,
-}
+use std::{
+    fs,
+    io::{BufReader, prelude::*},
+    net::{TcpListener, TcpStream},
+    thread,
+    time::Duration,
+};
 
-impl ListNode {
-    fn new(value: i32) -> Self {
-        ListNode { value, next: None }
-    }
-}
-
-fn reverse_linked_list_iterative(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-    let mut prev = None;
-    let mut current = head;
-
-    while let Some(mut node) = current {
-        current = node.next.take(); // Move to the next node
-        node.next = prev; // Reverse the link
-        prev = Some(node); // Move prev to the current node
-    }
-
-    prev // New head of the reversed list
-}
+use rust::ThreadPool;
 
 fn main() {
-    // Create a linked list: 1 -> 2 -> 3
-    let node3 = Box::new(ListNode::new(3));
-    let mut node2 = Box::new(ListNode::new(2));
-    node2.next = Some(node3);
-    let mut node1 = Box::new(ListNode::new(1));
-    node1.next = Some(node2);
+    let address = "localhost:7878";
+    print!("Listening on http://{address}");
 
-    let head = Some(node1);
+    let listener = TcpListener::bind(address).unwrap();
+    let pool = ThreadPool::new(4);
 
-    // Reverse the linked list
-    let reversed_head = reverse_linked_list_iterative(head);
+    for stream in listener.incoming() {
+        let stream = stream.unwrap();
 
-    // Print the reversed linked list
-    println!("{:?}", reversed_head);
+        pool.execute(|| {
+            println!("Connection established!");
+            handle_connection(stream);
+        });
+    }
+}
+
+fn handle_connection(mut stream: TcpStream) {
+    let buf_reader = BufReader::new(&stream);
+    let request_line = buf_reader.lines().next().unwrap().unwrap();
+
+    let (status_line, filename) = match request_line.as_str() {
+        "GET / HTTP/1.1" => ("HTTP/1.1 200 OK", "hello.html"),
+        "GET /sleep HTTP/1.1" => {
+            thread::sleep(Duration::from_secs(5));
+            ("HTTP/1.1 200 OK", "hello.html")
+        }
+        "GET /404 HTTP/1.1" => ("HTTP/1.1 404 NOT FOUND", "404.html"),
+        _ => ("HTTP/1.1 404 NOT FOUND", "404.html"),
+    };
+
+    let contents = fs::read_to_string(filename).unwrap();
+    let length = contents.len();
+
+    let response = format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+
+    stream.write_all(response.as_bytes()).unwrap();
 }
